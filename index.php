@@ -18,4 +18,11 @@ $app->get('/', function () use($app) {
 })->name('index');
 
 
+$app->group('/api',function() use($app){
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->get('/question/:n',function($n) use($app){
+        controller\apiQuestion::getInfo();
+    });
+});
+
 $app->run();
