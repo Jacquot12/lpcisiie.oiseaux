@@ -1,0 +1,13 @@
+{
+	"require":{
+		"slim/slim":"*",
+		"illuminate/database": "4.2.9"
+	},
+	"autoload":{
+		"psr-0":{
+			"controller":"",
+			"model":"",
+			"db":""
+		}
+	}
+}
