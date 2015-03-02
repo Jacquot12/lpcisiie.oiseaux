@@ -1,0 +1,8 @@
+host = localhost
+username = root
+password =
+database = oiseaux
+port =
+driver = mysql
+collation = utf8_unicode_ci
+charset = utf8
