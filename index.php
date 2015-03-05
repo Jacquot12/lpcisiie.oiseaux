@@ -14,8 +14,12 @@ $app = new \Slim\Slim(array(
 
 //$app->add(new \Slim\Middleware\SessionCookie());
 $app->get('/', function () use($app) {
-	$app->render('tmp.html');
+	$app->render('main_menu.html');
 })->name('index');
+
+$app->get('/game', function () use($app) {
+	$app->render('templates/qcm.html');
+});
 
 
 $app->run();
