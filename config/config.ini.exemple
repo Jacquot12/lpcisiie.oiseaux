@@ -1,8 +1,8 @@
 host = localhost
 username = root
-password = root
-database = atelier
-port = 3306
+password =
+database = oiseaux
+port =
 driver = mysql
 collation = utf8_unicode_ci
 charset = utf8
