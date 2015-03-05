@@ -23,9 +23,9 @@ $app->get('/game', function () use($app) {
 
 
 $app->group('/api',function() use($app){
-    $app->response->headers->set('Content-Type', 'application/json');
 
     $app->get('/question/:n',function($id) use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
         controller\apiQuestion::getInfo($id);
     });
 });
