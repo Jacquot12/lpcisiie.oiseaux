@@ -18,9 +18,13 @@ $app->get('/', function () use($app) {
 })->name('index');
 
 $app->get('/game', function () use($app) {
-	$app->render('templates/qcm.html');
+	$app->render('templates/game.html');
 });
 
+$app->get('/mustache/:n',function($n) use($app) {
+    $app->render('templates/'.$n.'.mustache.html');
+//    echo $n.'.mustache.html';
+});
 
 $app->group('/api',function() use($app){
 
@@ -29,5 +33,7 @@ $app->group('/api',function() use($app){
         controller\apiQuestion::getInfo($id);
     });
 });
+
+
 
 $app->run();
