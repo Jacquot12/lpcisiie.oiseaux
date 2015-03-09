@@ -13,5 +13,9 @@ class Question extends Model {
         return $this->belongsTo('model\SousNiveau', 'Id_sous_niveau');
     }
 
+    public function propositions()
+    {
+        return $this->belongsToMany('model\Proposition', 'orni_q2p', 'Id_question', 'Id_proposition');
+    }
 }
 ?>

@@ -12,6 +12,5 @@ class Proposition extends Model {
     {
         return $this->belongsTo('model\SousNiveau', 'Id_sous_niveau');
     }
-
 }
 ?>
