@@ -4,4 +4,14 @@ $(function () {
             $('#main').append(Mustache.render(template, data));
         })
     });
+
+    $(document).on('click','.proposition',function(e){
+
+        if($( e.currentTarget).hasClass('selected')){
+            $( e.currentTarget).removeClass('selected');
+        }else{
+            $( e.currentTarget).addClass('selected');
+        }
+
+    })
 });
