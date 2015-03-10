@@ -32,6 +32,21 @@ $app->group('/api',function() use($app){
         $app->response->headers->set('Content-Type', 'application/json');
         controller\apiQuestion::getInfo($id);
     });
+
+    $app->get('/photos/:espece/:photographe/:id',function($espece, $photographe, $id) use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiPhotos::getSpecificPhoto($espece, $photographe, $id);
+    });
+
+    $app->get('/photos/:espece/:photographe',function($espece, $photographe) use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiPhotos::getPhotosPhotographe($espece, $photographe);
+    });
+
+    $app->get('/photos/:n',function($id) use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiPhotos::getPhotos($id);
+    });
 });
 
 
