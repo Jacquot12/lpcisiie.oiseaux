@@ -1,42 +1,53 @@
-<div>
-    <div class="row">
-        <div class="medium-9">
-            <h2>Niveau x.{{Id_sous_niveau}}</h2>
-            <h3>Question {{Num_question}}/{{Total_questions}}</h3>
+<header class="row text-center">
+    <div class="large-4 columns">Temps : 2'58</div>
+    <div class="large-4 columns">Score : {{Utilisateur_points}} points</div>
+</header>
+<main>
+    <div>
+        <div class="row">
+            <div class="medium-9">
+                <h2>Niveau x.{{Id_sous_niveau}}</h2>
+
+                <h3>Question {{Num_question}}/{{Total_questions}}</h3>
+            </div>
+            <div class="medium-9">
+                <p>question blablabla</p>
+            </div>
         </div>
-        <div class="medium-9">
-            <p>question blablabla</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-9 columns">
-            <div class="row">
-                {{#propositions}}
-                <div class="proposition medium-3 columns">
-                    <div class="titre text-center">
-                        <h6>{{Espece_Ph}}</h6>
+        <div class="row">
+            <div class="medium-9 columns">
+                <div class="row">
+                    {{#propositions}}
+                    <div class="proposition medium-3 columns">
+                        <div class="titre text-center">
+                            <h6>{{Espece_Ph}}</h6>
+                        </div>
+                        <div class="img">
+                            <img src="{{url}}" alt="placeholder"/>
+                        </div>
                     </div>
-                    <div class="img">
-                        <img src="{{url}}" alt="placeholder"/>
+                    {{/propositions}}
+                </div>
+            </div>
+            <div class="medium-3 columns aide">
+                <div id="aide">
+                    <h3 class="text-center">Aide :</h3>
+
+                    <p>...</p>
+                </div>
+                <div>
+                    <p>Attention! Afficher l'aide fait perdre des points</p>
+
+                    <div>
+                        <button class="small expand">Afficher l'aide</button>
                     </div>
                 </div>
-                {{/propositions}}
             </div>
         </div>
-        <div class="medium-3 columns aide">
-            <div id="aide">
-                <h3 class="text-center">Aide :</h3>
-                <p>...</p>
-            </div>
-            <div>
-                <p>Attention! Afficher l'aide fait perdre des points</p>
-                <div><button class="small expand">Afficher l'aide</button></div>
+        <div class="row barbas">
+            <div class="medium-2">
+                <button class="button expand small" id="validation">Valider</button>
             </div>
         </div>
     </div>
-    <div class="row barbas">
-        <div class="medium-2">
-            <button class="button expand small" id="validation">Valider</button>
-        </div>
-    </div>
-</div>
+</main>
