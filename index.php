@@ -28,6 +28,11 @@ $app->get('/mustache/:n',function($n) use($app) {
 
 $app->group('/api',function() use($app){
 
+    $app->get('/game/',function() use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiJeu::createNewGame();
+    });
+
     $app->get('/question/:n',function($id) use($app){
         $app->response->headers->set('Content-Type', 'application/json');
         controller\apiQuestion::getInfo($id);
