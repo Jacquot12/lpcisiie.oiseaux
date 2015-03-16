@@ -1,18 +1,16 @@
+/**
+ * On vérifie qu'une partie existe en testant qu'il existe au moins une question.
+ * Sinon on renvoit l'utilisateur au menu principal.
+ */
+if (localStorage.getItem("Question0") === null) {
+    alert("Vous n'avez pas de partie active, retour au menu principal");
+    //TODO Renvoyer l'utilisateur au menu principal... ou créer une partie ?
+}
+
 $(function () {
-    $.get('api/question/4', function (data) {
-        var propsArr = data.propositions;
-        for (var prop in propsArr) {
-            (function(wrapper) {
-                var espece = shortName(wrapper.Espece_Ph);
-                $.get('api/photos/' + espece + '/' + wrapper.Photographe + '/' + wrapper.Num_Img, function (data) {
-                    wrapper.url = getUrlPhoto(data[0].Url_Ph);
-                })
-            })(propsArr[prop]);
-        }
-        $.get('mustache/qcm', function (template) {
-            $('#main').append(Mustache.render(template, data));
-        })
-    });
+    var i = -1;
+    console.log(localStorage.getItem("Question" + i));
+    questionSuivante(i);
 
     $(document).on('click', '.proposition', function (e) {
         if ($(e.currentTarget).hasClass('selected')) {
@@ -20,9 +18,37 @@ $(function () {
         } else {
             $(e.currentTarget).addClass('selected');
         }
-
     })
 });
+
+/**
+ * Fonction qui affiche la question suivante. A appeler une première fois avec -1 (pour commencer à la question 0).
+ *
+ * @param i
+ * Numéro de la question actuelle (donc l'ancienne).
+ */
+function questionSuivante(i) {
+    i++;
+    $.get(localStorage.getItem("Question" + i), function (data) {
+        data.Num_question = i+1;
+        data.Total_questions = localStorage.getItem("Nb_questions");
+        var propsArr = data.propositions;
+        for (var prop in propsArr) {
+            (function (wrapper) {
+                var espece = shortName(wrapper.Espece_Ph);
+                $.get('api/photos/' + espece + '/' + wrapper.Photographe + '/' + wrapper.Num_Img, function (data) {
+                    wrapper.url = getUrlPhoto(data[0].Url_Ph);
+                })
+            })(propsArr[prop]);
+        }
+        $.get('mustache/qcm', function (template) {
+            $('#main').html(Mustache.render(template, data));
+            document.getElementById("validation").addEventListener('click', function () {
+                questionSuivante(i);
+            });
+        })
+    });
+}
 
 /**
  * Prends le nom de l'oiseau sans formatage et retire les accents + maj + espaces
