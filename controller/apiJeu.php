@@ -28,7 +28,7 @@ class apiJeu {
     static function createNewGame(){
         $questions = Question::select('Id_question')->distinct()->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->get();
         foreach($questions as $q) {
-            $q['Url'] = '/api/question/'.$q['Id_question'];
+            $q['Url'] = 'api/question/'.$q['Id_question'];
         }
         $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant')->where('Id_niveau', '=', NIVEAU)->where('Num_sous_niveau', '=', SOUS_NIVEAU)->get();
         $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
