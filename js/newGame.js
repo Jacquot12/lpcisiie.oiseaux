@@ -14,6 +14,6 @@ $.get('api/game', function (data) {
             localStorage.setItem(v, data[v]);
         }
     }
-    document.location.href = "game";
+    window.location.replace("game");
 });
 
