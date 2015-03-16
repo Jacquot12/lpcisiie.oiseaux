@@ -32,10 +32,11 @@ class apiJeu {
         }
         $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant')->where('Id_niveau', '=', NIVEAU)->where('Num_sous_niveau', '=', SOUS_NIVEAU)->get();
         $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
-        $questions['Nb_points'] = (int)$nb_points[0]['attributes']['Score_Validation'];
+        $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_Validation'];
         $questions['Niveau'] = NIVEAU;
         $questions['Sous_niveau'] = SOUS_NIVEAU;
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
+        $questions['Utilisateur_points'] = 0;
         echo json_encode($questions);
     }
 }
