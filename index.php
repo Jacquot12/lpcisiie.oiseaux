@@ -21,6 +21,10 @@ $app->get('/game', function () use($app) {
 	$app->render('templates/game.html');
 });
 
+$app->get('/newGame', function () use($app) {
+	$app->render('newGame.html');
+});
+
 $app->get('/mustache/:n',function($n) use($app) {
     $app->render('templates/'.$n.'.mustache.html');
 //    echo $n.'.mustache.html';
