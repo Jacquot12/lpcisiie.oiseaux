@@ -9,8 +9,23 @@ if (localStorage.getItem("Question0") === null) {
 
 $(function () {
     var i = -1;
-    console.log(localStorage.getItem("Question" + i));
+    localStorage.setItem('Utilisateur_points', 0);
     questionSuivante(i);
+
+    /**
+     * Demande à l'utilisateur si il veut vraiment quitter ou rafraîchir la page.
+     */
+    //TODO Décommenter lorsqu'on aura bien progressé.
+        //window.onbeforeunload = function (evt) {
+        //    var message = 'Vous allez perdre votre progression, êtes-vous sûr de vouloir continuer ?';
+        //    if (typeof evt == 'undefined') {
+        //        evt = window.event;
+        //    }
+        //    if (evt) {
+        //        evt.returnValue = message;
+        //    }
+        //    return message;
+        //}
 
     $(document).on('click', '.proposition', function (e) {
         if ($(e.currentTarget).hasClass('selected')) {
@@ -30,8 +45,9 @@ $(function () {
 function questionSuivante(i) {
     i++;
     $.get(localStorage.getItem("Question" + i), function (data) {
-        data.Num_question = i+1;
+        data.Num_question = i + 1;
         data.Total_questions = localStorage.getItem("Nb_questions");
+        data.Utilisateur_points = localStorage.getItem("Utilisateur_points");
         var propsArr = data.propositions;
         for (var prop in propsArr) {
             (function (wrapper) {
@@ -41,13 +57,49 @@ function questionSuivante(i) {
                 })
             })(propsArr[prop]);
         }
+        validerReponse(data, i);
+    });
+
+}
+/**
+ * Valide la réponse et attribut les points. Gère la fin d'une série de questions. Lance la question suivante.
+ * Y'a moyen qu'il faille réorganiser.
+ *
+ * J'ai un truc comme ça au niveau de la structure
+ * https://www.lucidchart.com/invitations/accept/006396f2-3bda-408d-8d2d-595629450486
+ *
+ * @param data
+ * Les données retournées dans questionSuivante()
+ *
+ * @param i
+ * L'état de l'iteration de questionSuivante()
+ */
+function validerReponse(data, i) {
+    //TODO Validation des réponses
+    var bonneReponse = true;
+    if (bonneReponse) {
+        var score = Number(localStorage.getItem('Utilisateur_points')) + Number(data.Nb_points) + 15;
+        localStorage.setItem('Utilisateur_points', score);
+    }
+
+    if (i < localStorage.getItem("Nb_questions")) {
         $.get('mustache/qcm', function (template) {
             $('#main').html(Mustache.render(template, data));
             document.getElementById("validation").addEventListener('click', function () {
                 questionSuivante(i);
             });
         })
-    });
+    }
+    else {
+        //TODO BUGUÉ /!\ Passage au sous-niveau suivant si le nombre de point est suffisant
+        //Renvoit du code html lors la dernière boucle dans questionSuivante().
+        //Ca fait ça parce que la requête Ajax tape sur quelque chose qui n'existe pas parce qu'on est décalé. Teamspeak/Mumble/Bigophone moi.
+        data.Nb_points_necessaires = localStorage.getItem('Nb_points_necessaires');
+        $.get('mustache/fin_sous_niveau', function (template) {
+            $('#main').html(Mustache.render(template, data));
+
+        })
+    }
 }
 
 /**
@@ -72,7 +124,7 @@ function shortName(name) {
  * @return {string}
  *      Url de la photo (bugué)
  */
-//TODO Voir avec Didier pour les URLs ne fonctionnant pas toutes...
+//TODO Voir avec Didier pour les URLs ne fonctionnent pas toutes...
 function getUrlPhoto(path) {
     path = path.split('/');
     var photo = path[6].split('.');
