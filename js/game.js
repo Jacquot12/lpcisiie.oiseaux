@@ -15,7 +15,7 @@ $(function () {
     /**
      * Demande à l'utilisateur si il veut vraiment quitter ou rafraîchir la page.
      */
-    //TODO Décommenter lorsqu'on aura bien progressé.
+        //TODO Décommenter lorsqu'on aura bien progressé.
         //window.onbeforeunload = function (evt) {
         //    var message = 'Vous allez perdre votre progression, êtes-vous sûr de vouloir continuer ?';
         //    if (typeof evt == 'undefined') {
@@ -75,9 +75,9 @@ function questionSuivante(i) {
  * L'état de l'iteration de questionSuivante()
  */
 
-function tmp(){
-    $('.selected').each(function(e){
-        var el = $(".selected:eq("+e+") input:first").val();
+function tmp() {
+    $('.selected').each(function (e) {
+        var el = $(".selected:eq(" + e + ") input:first").val();
     });
 }
 function validerReponse(data, i) {
@@ -85,15 +85,15 @@ function validerReponse(data, i) {
     // Defaut à faux (suivre tout pour comprendre)
     var bonneReponse = false;
 
-    // Si au moins une reponse selectionné, juste
-    if($('.selected').length > 0){
+    // Si au moins une reponse selectionnée, juste
+    if ($('.selected').length > 0) {
         var bonneReponse = true;
     }
 
-    //Si une réponse est faux, pas de point
-    $('.selected').each(function(e){
-        var el = $(".selected:eq("+e+") input:first").val();
-        if(el == 0){
+    //Si une réponse est fausse, pas de point
+    $('.selected').each(function (e) {
+        var el = $(".selected:eq(" + e + ") input:first").val();
+        if (el == 0) {
             bonneReponse = false
         }
     });
@@ -110,7 +110,7 @@ function validerReponse(data, i) {
                 questionSuivante(i);
             });
         })
-    }else {
+    } else {
         //TODO BUGUÉ /!\ Passage au sous-niveau suivant si le nombre de point est suffisant
         //Renvoit du code html lors la dernière boucle dans questionSuivante().
         //Ca fait ça parce que la requête Ajax tape sur quelque chose qui n'existe pas parce qu'on est décalé. Teamspeak/Mumble/Bigophone moi.
