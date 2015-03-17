@@ -74,12 +74,28 @@ function questionSuivante(i) {
  * @param i
  * L'état de l'iteration de questionSuivante()
  */
+
+function tmp(){
+    $('.selected').each(function(e){
+        var el = $(".selected:eq("+e+") input:first").val();
+    });
+}
 function validerReponse(data, i) {
     //TODO Validation des réponses
-    var bonneReponse = true;
+    // Defaut à faux (suivre tout pour comprendre)
+    var bonneReponse = false;
 
+    // Si au moins une reponse selectionné, juste
+    if($('.selected').length > 0){
+        var bonneReponse = true;
+    }
+
+    //Si une réponse est faux, pas de point
     $('.selected').each(function(e){
-        console.log(e);
+        var el = $(".selected:eq("+e+") input:first").val();
+        if(el == 0){
+            bonneReponse = false
+        }
     });
 
     if (bonneReponse) {
