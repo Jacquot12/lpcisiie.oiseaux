@@ -42,6 +42,12 @@ $app->group('/api',function() use($app){
         controller\apiQuestion::getInfo($id);
     });
 
+    $app->get('/question/verif/:n',function($id) use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        $idProp=$app->request->get('prop');
+        controller\apiQuestion::getValide($id,$idProp);
+    });
+
     $app->get('/photos/:espece/:photographe/:id',function($espece, $photographe, $id) use($app){
         $app->response->headers->set('Content-Type', 'application/json');
         controller\apiPhotos::getSpecificPhoto($espece, $photographe, $id);

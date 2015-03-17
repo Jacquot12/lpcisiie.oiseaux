@@ -77,6 +77,11 @@ function questionSuivante(i) {
 function validerReponse(data, i) {
     //TODO Validation des réponses
     var bonneReponse = true;
+
+    $('.selected').each(function(e){
+        console.log(e);
+    });
+
     if (bonneReponse) {
         var score = Number(localStorage.getItem('Utilisateur_points')) + Number(data.Nb_points) + 15;
         localStorage.setItem('Utilisateur_points', score);
@@ -89,8 +94,7 @@ function validerReponse(data, i) {
                 questionSuivante(i);
             });
         })
-    }
-    else {
+    }else {
         //TODO BUGUÉ /!\ Passage au sous-niveau suivant si le nombre de point est suffisant
         //Renvoit du code html lors la dernière boucle dans questionSuivante().
         //Ca fait ça parce que la requête Ajax tape sur quelque chose qui n'existe pas parce qu'on est décalé. Teamspeak/Mumble/Bigophone moi.
