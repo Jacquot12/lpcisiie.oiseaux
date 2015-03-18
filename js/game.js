@@ -109,6 +109,7 @@ function validerReponse(data, i) {
     }
 
     data.Niveau = gameInfos.Niveau;
+    data.Description_sous_niveau = gameInfos.Description_sous_niveau;
     $.get('mustache/qcm', function (template) {
         $('#main').html(Mustache.render(template, data));
         document.getElementById("validation").addEventListener('click', function () {
