@@ -1,17 +1,15 @@
-/**
- * On vérifie qu'une partie existe en testant qu'il existe au moins une question.
- * Sinon on renvoit l'utilisateur au menu principal.
- */
-if (localStorage.getItem("Question0") === null) {
-    alert("Vous n'avez pas de partie active, retour au menu principal");
-    //TODO Renvoyer l'utilisateur au menu principal... ou créer une partie ?
-}
-
 var gameInfos = JSON.parse(localStorage.getItem("data"));
+
+/**
+ * On vérifie qu'une partie existe sinon on renvoit l'utilisateur au menu principal.
+ */
+if (gameInfos === null) {
+    alert("Vous n'avez pas de partie active, retour au menu principal");
+    window.location.replace(getParentUrl());
+}
 
 $(function () {
     var i = -1;
-    gameInfos.Utilisateur_points = 0;
     questionSuivante(i);
 
     /**
@@ -45,6 +43,7 @@ $(function () {
  * Numéro de la question actuelle (donc l'ancienne).
  */
 function questionSuivante(i) {
+    console.log(gameInfos);
     i++;
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
@@ -64,6 +63,13 @@ function questionSuivante(i) {
         });
     } else niveauSuivant();
 }
+
+function tmp() {
+    $('.selected').each(function (e) {
+        var el = $(".selected:eq(" + e + ") input:first").val();
+    });
+}
+
 /**
  * Valide la réponse et attribut les points. Gère la fin d'une série de questions. Lance la question suivante.
  * Y'a moyen qu'il faille réorganiser.
@@ -77,12 +83,6 @@ function questionSuivante(i) {
  * @param i
  * L'état de l'iteration de questionSuivante()
  */
-
-function tmp() {
-    $('.selected').each(function (e) {
-        var el = $(".selected:eq(" + e + ") input:first").val();
-    });
-}
 function validerReponse(data, i) {
     var nbQuestions = gameInfos.Nb_questions;
 
@@ -108,6 +108,7 @@ function validerReponse(data, i) {
         gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
     }
 
+    data.Niveau = gameInfos.Niveau;
     $.get('mustache/qcm', function (template) {
         $('#main').html(Mustache.render(template, data));
         document.getElementById("validation").addEventListener('click', function () {
