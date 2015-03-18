@@ -32,6 +32,11 @@ $app->get('/mustache/:n',function($n) use($app) {
 
 $app->group('/api',function() use($app){
 
+    $app->get('/game/:n/:sn',function($niveau, $sous_niveau) use($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiJeu::nextLevel($niveau, $sous_niveau);
+    });
+
     $app->get('/game/',function() use($app){
         $app->response->headers->set('Content-Type', 'application/json');
         controller\apiJeu::createNewGame();
