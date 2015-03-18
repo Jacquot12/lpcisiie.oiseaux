@@ -49,6 +49,7 @@ function questionSuivante(i) {
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
             data.Utilisateur_points = gameInfos.Utilisateur_points;
+            data.Num_sous_niveau = gameInfos.Sous_niveau;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
                 //TODO Pour test, à retirer
@@ -126,8 +127,13 @@ function validerReponse(data) {
  * Permet de terminer une série de questions et d'afficher le résultat.
  */
 function niveauSuivant() {
-    $.get('mustache/fin_sous_niveau', function (template) {
-        $('#main').html(Mustache.render(template, gameInfos));
+    //TODO Trouver une solution pour afficher le menu de fin et des options en fonction du résultat
+    //$.get('mustache/fin_sous_niveau', function (template) {
+    //    $('#main').html(Mustache.render(template, gameInfos));
+    //})
+    $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
+        gameInfos = data;
+        questionSuivante(-1);
     })
 }
 
