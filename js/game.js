@@ -133,6 +133,7 @@ function niveauSuivant() {
     //})
     $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
         gameInfos = data;
+        localStorage.setItem('data', JSON.stringify(data));
         questionSuivante(-1);
     })
 }
