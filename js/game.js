@@ -44,22 +44,23 @@ $(function () {
  */
 function questionSuivante(i) {
     i++;
-    $.get(localStorage.getItem("Question" + i), function (data) {
-        data.Num_question = i + 1;
-        data.Total_questions = localStorage.getItem("Nb_questions");
-        data.Utilisateur_points = localStorage.getItem("Utilisateur_points");
-        var propsArr = data.propositions;
-        for (var prop in propsArr) {
-            (function (wrapper) {
-                var espece = shortName(wrapper.Espece_Ph);
-                $.get('api/photos/' + espece + '/' + wrapper.Photographe + '/' + wrapper.Num_Img, function (data) {
-                    wrapper.url = getUrlPhoto(data[0].Url_Ph);
-                })
-            })(propsArr[prop]);
-        }
-        validerReponse(data, i);
-    });
-
+    if (i < Number(localStorage.getItem("Nb_questions"))) {
+        $.get(localStorage.getItem("Question" + i), function (data) {
+            data.Num_question = i + 1;
+            data.Total_questions = localStorage.getItem("Nb_questions");
+            data.Utilisateur_points = localStorage.getItem("Utilisateur_points");
+            var propsArr = data.propositions;
+            for (var prop in propsArr) {
+                (function (wrapper) {
+                    var espece = shortName(wrapper.Espece_Ph);
+                    $.get('api/photos/' + espece + '/' + wrapper.Photographe + '/' + wrapper.Num_Img, function (data) {
+                        wrapper.url = getUrlPhoto(data[0].Url_Ph);
+                    })
+                })(propsArr[prop]);
+            }
+            validerReponse(data, i);
+        });
+    } else niveauSuivant();
 }
 /**
  * Valide la réponse et attribut les points. Gère la fin d'une série de questions. Lance la question suivante.
@@ -81,13 +82,15 @@ function tmp() {
     });
 }
 function validerReponse(data, i) {
+    var nbQuestions = Number(localStorage.getItem("Nb_questions"));
+
     //TODO Validation des réponses
     // Defaut à faux (suivre tout pour comprendre)
     var bonneReponse = false;
 
     // Si au moins une reponse selectionnée, juste
     if ($('.selected').length > 0) {
-        var bonneReponse = true;
+        bonneReponse = true;
     }
 
     //Si une réponse est fausse, pas de point
@@ -99,27 +102,29 @@ function validerReponse(data, i) {
     });
 
     if (bonneReponse) {
+        //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
         var score = Number(localStorage.getItem('Utilisateur_points')) + Number(data.Nb_points) + 15;
         localStorage.setItem('Utilisateur_points', score);
     }
 
-    if (i < localStorage.getItem("Nb_questions")) {
-        $.get('mustache/qcm', function (template) {
-            $('#main').html(Mustache.render(template, data));
-            document.getElementById("validation").addEventListener('click', function () {
-                questionSuivante(i);
-            });
-        })
-    } else {
-        //TODO BUGUÉ /!\ Passage au sous-niveau suivant si le nombre de point est suffisant
-        //Renvoit du code html lors la dernière boucle dans questionSuivante().
-        //Ca fait ça parce que la requête Ajax tape sur quelque chose qui n'existe pas parce qu'on est décalé. Teamspeak/Mumble/Bigophone moi.
-        data.Nb_points_necessaires = localStorage.getItem('Nb_points_necessaires');
-        $.get('mustache/fin_sous_niveau', function (template) {
-            $('#main').html(Mustache.render(template, data));
+    $.get('mustache/qcm', function (template) {
+        $('#main').html(Mustache.render(template, data));
+        document.getElementById("validation").addEventListener('click', function () {
+            questionSuivante(i);
+        });
+    })
+}
 
-        })
-    }
+/**
+ * Permet de terminer une série de questions et d'afficher le résultat.
+ */
+function niveauSuivant() {
+    var data = {};
+    data.Nb_points_necessaires = Number(localStorage.getItem('Nb_points_necessaires'));
+    data.Utilisateur_points = Number(localStorage.getItem('Utilisateur_points'));
+    $.get('mustache/fin_sous_niveau', function (template) {
+        $('#main').html(Mustache.render(template, data));
+    })
 }
 
 /**
