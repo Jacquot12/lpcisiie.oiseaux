@@ -42,27 +42,25 @@ class apiJeu {
     }
 
     /**
-     * Renvoit le json correspondant au niveau suivant a celui fournit
-     *
-     * @param $niveau
-     * Niveau actuel
+     * Renvoit le json correspondant au niveau fournit
      *
      * @param $sous_niveau
-     * Sous niveau actuel
+     * L'id du sous_niveau dont on veut les infos (Sous_niveau_suivant)
      */
-    static function nextLevel($niveau, $sous_niveau) {
-        $nb_points = SousNiveau::select('Id_sous_niveau', 'Sous_niveau_suivant', 'Score_Validation', 'Sous_niveau_suivant', 'Description_sous_niveau')->where('Id_niveau', '=', $niveau)->where('Num_sous_niveau', '=', $sous_niveau)->get();
+    static function nextLevel($sous_niveau) {
+        $nb_points = SousNiveau::select()->where('Id_sous_niveau', '=', $sous_niveau)->get();
         $questions = Question::select('Id_question')->distinct()->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Sous_niveau_suivant'])->get();
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
         $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
         $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
-        $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_Validation'];
-        $questions['Niveau'] = (int)$niveau;
-        $questions['Sous_niveau'] = (int)$sous_niveau;
+        $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_validation'];
+        $questions['Niveau'] = (int)$nb_points[0]['attributes']['Id_niveau'];
+        $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
         $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
+        $questions['Utilisateur_points'] = 0;
         echo json_encode($questions);
     }
 }
