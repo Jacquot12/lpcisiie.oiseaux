@@ -7,9 +7,11 @@ if (localStorage.getItem("Question0") === null) {
     //TODO Renvoyer l'utilisateur au menu principal... ou créer une partie ?
 }
 
+var gameInfos = JSON.parse(localStorage.getItem("data"));
+
 $(function () {
     var i = -1;
-    localStorage.setItem('Utilisateur_points', 0);
+    gameInfos.Utilisateur_points = 0;
     questionSuivante(i);
 
     /**
@@ -44,11 +46,11 @@ $(function () {
  */
 function questionSuivante(i) {
     i++;
-    if (i < Number(localStorage.getItem("Nb_questions"))) {
-        $.get(localStorage.getItem("Question" + i), function (data) {
+    if (i < gameInfos.Nb_questions) {
+        $.get(gameInfos[i].Url, function (data) {
             data.Num_question = i + 1;
-            data.Total_questions = localStorage.getItem("Nb_questions");
-            data.Utilisateur_points = localStorage.getItem("Utilisateur_points");
+            data.Total_questions = gameInfos.Nb_questions;
+            data.Utilisateur_points = gameInfos.Utilisateur_points;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
                 (function (wrapper) {
@@ -82,7 +84,7 @@ function tmp() {
     });
 }
 function validerReponse(data, i) {
-    var nbQuestions = Number(localStorage.getItem("Nb_questions"));
+    var nbQuestions = gameInfos.Nb_questions;
 
     //TODO Validation des réponses
     // Defaut à faux (suivre tout pour comprendre)
@@ -103,8 +105,7 @@ function validerReponse(data, i) {
 
     if (bonneReponse) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
-        var score = Number(localStorage.getItem('Utilisateur_points')) + Number(data.Nb_points) + 15;
-        localStorage.setItem('Utilisateur_points', score);
+        gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
     }
 
     $.get('mustache/qcm', function (template) {
@@ -120,8 +121,8 @@ function validerReponse(data, i) {
  */
 function niveauSuivant() {
     var data = {};
-    data.Nb_points_necessaires = Number(localStorage.getItem('Nb_points_necessaires'));
-    data.Utilisateur_points = Number(localStorage.getItem('Utilisateur_points'));
+    data.Nb_points_necessaires = gameInfos.Nb_points_necessaires;
+    data.Utilisateur_points = gameInfos.Utilisateur_points;
     $.get('mustache/fin_sous_niveau', function (template) {
         $('#main').html(Mustache.render(template, data));
     })
