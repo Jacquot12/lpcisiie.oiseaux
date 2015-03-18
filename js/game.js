@@ -131,11 +131,20 @@ function niveauSuivant() {
     //$.get('mustache/fin_sous_niveau', function (template) {
     //    $('#main').html(Mustache.render(template, gameInfos));
     //})
-    $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
-        gameInfos = data;
-        localStorage.setItem('data', JSON.stringify(data));
+    if (gameInfos.Utilisateur_points >= gameInfos.Nb_points_necessaires) {
+        //Nombre de points suffisant, on passe au sous-niveau suivant
+        alert("Félicitation, passage au niveau suivant.");
+        $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
+            gameInfos = data;
+            localStorage.setItem('data', JSON.stringify(data));
+            questionSuivante(-1);
+        })
+    }
+    else {
+        //Nombre insuffisant de points, on recommence
+        alert("Pas assez de bonne réponse, vous recommencez.");
         questionSuivante(-1);
-    })
+    }
 }
 
 /**
