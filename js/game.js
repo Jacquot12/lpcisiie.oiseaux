@@ -46,6 +46,7 @@ function questionSuivante(i) {
     i++;
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
+            shuffle(data.propositions);
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
             data.Utilisateur_points = gameInfos.Utilisateur_points;
