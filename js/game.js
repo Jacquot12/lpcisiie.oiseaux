@@ -43,7 +43,6 @@ $(function () {
  * Numéro de la question actuelle (donc l'ancienne).
  */
 function questionSuivante(i) {
-    console.log(gameInfos);
     i++;
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
@@ -52,6 +51,11 @@ function questionSuivante(i) {
             data.Utilisateur_points = gameInfos.Utilisateur_points;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
+                //TODO Pour test, à retirer
+                //----->
+                if (propsArr[prop].pivot.res == 1)
+                    console.log(propsArr[prop].Espece_Ph);
+                //<-----
                 (function (wrapper) {
                     var espece = shortName(wrapper.Espece_Ph);
                     $.get('api/photos/' + espece + '/' + wrapper.Photographe + '/' + wrapper.Num_Img, function (data) {
@@ -59,7 +63,15 @@ function questionSuivante(i) {
                     })
                 })(propsArr[prop]);
             }
-            validerReponse(data, i);
+            data.Niveau = gameInfos.Niveau;
+            data.Description_sous_niveau = gameInfos.Description_sous_niveau;
+            $.get('mustache/qcm', function (template) {
+                $('#main').html(Mustache.render(template, data));
+                document.getElementById("validation").addEventListener('click', function () {
+                    validerReponse(data);
+                    questionSuivante(i);
+                });
+            })
         });
     } else niveauSuivant();
 }
@@ -74,16 +86,13 @@ function tmp() {
  * Valide la réponse et attribut les points. Gère la fin d'une série de questions. Lance la question suivante.
  * Y'a moyen qu'il faille réorganiser.
  *
- * J'ai un truc comme ça au niveau de la structure
- * https://www.lucidchart.com/invitations/accept/006396f2-3bda-408d-8d2d-595629450486
- *
  * @param data
  * Les données retournées dans questionSuivante()
  *
  * @param i
  * L'état de l'iteration de questionSuivante()
  */
-function validerReponse(data, i) {
+function validerReponse(data) {
     var nbQuestions = gameInfos.Nb_questions;
 
     //TODO Validation des réponses
@@ -105,28 +114,20 @@ function validerReponse(data, i) {
 
     if (bonneReponse) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
-        gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
+        data.Utilisateur_points = gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
+        console.log("bonne réponse");
     }
-
-    data.Niveau = gameInfos.Niveau;
-    data.Description_sous_niveau = gameInfos.Description_sous_niveau;
-    $.get('mustache/qcm', function (template) {
-        $('#main').html(Mustache.render(template, data));
-        document.getElementById("validation").addEventListener('click', function () {
-            questionSuivante(i);
-        });
-    })
+    else {
+        console.log("mauvaise réponse");
+    }
 }
 
 /**
  * Permet de terminer une série de questions et d'afficher le résultat.
  */
 function niveauSuivant() {
-    var data = {};
-    data.Nb_points_necessaires = gameInfos.Nb_points_necessaires;
-    data.Utilisateur_points = gameInfos.Utilisateur_points;
     $.get('mustache/fin_sous_niveau', function (template) {
-        $('#main').html(Mustache.render(template, data));
+        $('#main').html(Mustache.render(template, gameInfos));
     })
 }
 
