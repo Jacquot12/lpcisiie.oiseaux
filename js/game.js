@@ -111,7 +111,7 @@ function validerReponse(data) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
         data.Utilisateur_points = gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
         pointSousNiveau = pointSousNiveau + Number(data.Nb_points) + 15;
-        ;
+        console.log(gameInfos.Utilisateur_points);
         console.log("bonne réponse");
     }
     else {
