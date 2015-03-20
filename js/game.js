@@ -1,5 +1,5 @@
 var gameInfos = JSON.parse(localStorage.getItem("data"));
-
+var pointSousNiveau = 0;
 /**
  * On vérifie qu'une partie existe sinon on renvoit l'utilisateur au menu principal.
  */
@@ -10,6 +10,7 @@ if (gameInfos === null) {
 
 $(function () {
     var i = -1;
+
     questionSuivante(i);
 
     /**
@@ -109,6 +110,7 @@ function validerReponse(data) {
     if (bonneReponse) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
         data.Utilisateur_points = gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
+        pointSousNiveau = pointSousNiveau  + Number(data.Nb_points) + 15;;
         console.log("bonne réponse");
     }
     else {
@@ -142,6 +144,8 @@ function niveauSuivant() {
     else {
         //Nombre insuffisant de points, on recommence
         alert("Pas assez de bonne réponse, vous recommencez.");
+        gameInfos.Utilisateur_points = gameInfos.Utilisateur_points - pointSousNiveau;
+        pointSousNiveau = 0;
         questionSuivante(-1);
     }
 }
