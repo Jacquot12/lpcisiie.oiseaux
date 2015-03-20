@@ -26,7 +26,7 @@ class apiJeu {
      * Renvoit le json correspondant au premier sous-niveau et ses questions.
      */
     static function createNewGame(){
-        $questions = Question::select('Id_question')->distinct()->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', SOUS_NIVEAU)->get();
+        $questions = Question::select('Id_question')->distinct()->limit(1000)->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', SOUS_NIVEAU)->get();
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
@@ -49,7 +49,7 @@ class apiJeu {
      */
     static function nextLevel($sous_niveau) {
         $nb_points = SousNiveau::select()->where('Id_sous_niveau', '=', $sous_niveau)->get();
-        $questions = Question::select('Id_question')->distinct()->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Sous_niveau_suivant'])->get();
+        $questions = Question::select('Id_question')->distinct()->limit(1000)->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Sous_niveau_suivant'])->get();
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
