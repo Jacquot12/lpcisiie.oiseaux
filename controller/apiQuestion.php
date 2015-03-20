@@ -5,9 +5,12 @@ use model\Question;
 use model\Q2P;
 use model\SousNiveau;
 
+const NB_POINTS = 10;
+
 class apiQuestion {
     static function getInfo($id){
         $query = Question::with('propositions')->find($id);
+        $query->Nb_points = NB_POINTS;
         foreach($query->propositions as $p){
             $res = Q2P::select('Reponse')
                     ->where('Id_question','=',$p->pivot->Id_question)
@@ -15,7 +18,6 @@ class apiQuestion {
                     ->get();
             $p->pivot->res = $res[0]->Reponse;
             $p->url = "http://www.oiseaux.net/photos/" . $p->Chemin_Img;
-
         }
         echo json_encode($query);
 
