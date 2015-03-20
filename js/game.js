@@ -57,7 +57,7 @@ function questionSuivante(i) {
                 //TODO Pour test, à retirer
                 //----->
                 if (propsArr[prop].pivot.res == 1)
-                    console.log(propsArr[prop].Espece_Ph);
+                    console.log("%c" + propsArr[prop].Espece_Ph, "font-weight:bold;");
                 //<-----
             }
             data.Niveau = gameInfos.Niveau;
@@ -110,7 +110,8 @@ function validerReponse(data) {
     if (bonneReponse) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
         data.Utilisateur_points = gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
-        pointSousNiveau = pointSousNiveau  + Number(data.Nb_points) + 15;;
+        pointSousNiveau = pointSousNiveau + Number(data.Nb_points) + 15;
+        ;
         console.log("bonne réponse");
     }
     else {
