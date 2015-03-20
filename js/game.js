@@ -64,6 +64,9 @@ function questionSuivante(i) {
             data.Description_sous_niveau = gameInfos.Description_sous_niveau;
             $.get('mustache/qcm', function (template) {
                 $('#main').html(Mustache.render(template, data));
+                $('#afficheAide').on('click',function(){
+                    alert($('#idAide').val());
+                });
                 document.getElementById("validation").addEventListener('click', function () {
                     validerReponse(data);
                     questionSuivante(i);
@@ -111,7 +114,7 @@ function validerReponse(data) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
         data.Utilisateur_points = gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
         pointSousNiveau = pointSousNiveau + Number(data.Nb_points) + 15;
-        ;
+        console.log(gameInfos.Utilisateur_points);
         console.log("bonne réponse");
     }
     else {
