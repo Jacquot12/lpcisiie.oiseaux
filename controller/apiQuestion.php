@@ -14,7 +14,7 @@ class apiQuestion {
                     ->where('Id_proposition','=',$p->pivot->Id_proposition)
                     ->get();
             $p->pivot->res = $res[0]->Reponse;
-
+            $p->url = "http://www.oiseaux.net/photos/" . $p->Chemin_Img;
 
         }
         echo json_encode($query);
