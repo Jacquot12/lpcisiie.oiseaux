@@ -126,11 +126,14 @@ function validerReponse(data) {
  * Permet de terminer une série de questions et d'afficher le résultat.
  */
 function niveauSuivant() {
-    //$.get('mustache/fin_sous_niveau', function (template) {
-    //    $('#main').html(Mustache.render(template, gameInfos));
-    //})
+
     if (gameInfos.Utilisateur_points >= gameInfos.Nb_points_necessaires) {
-        alert("Félicitation, passage au niveau suivant.");
+        //alert("Félicitation, passage au niveau suivant.");
+        $.get('mustache/fin_sous_niveau', function (template) {
+            $('#main').html(Mustache.render(template, gameInfos));
+            console.log(gameInfos);
+        });
+
         $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
             if (data.Niveau != gameInfos.Niveau) {
                 //TODO Gérer le passage d'un niveau
@@ -140,9 +143,10 @@ function niveauSuivant() {
                 //TODO Gérer le passage d'un sous-niveau
                 console.log("Sous-niveau ++");
             }
-            gameInfos = data;
-            localStorage.setItem('data', JSON.stringify(data));
-            questionSuivante(-1);
+            //TODO A décommenter plus tard, c'etait pour voir le template de fin de sous-niveau
+            //gameInfos = data;
+            //localStorage.setItem('data', JSON.stringify(data));
+            //questionSuivante(-1);
         })
     }
     else {

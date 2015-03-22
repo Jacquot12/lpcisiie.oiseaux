@@ -1,7 +1,28 @@
-<header class="row text-center">
-    <div class="large-4 columns">Temps : 2'58</div>
-    <div class="large-4 columns">Score : {{Utilisateur_points}} points</div>
-</header>
+<div class="header">
+    <div class="row text-center">
+        <div class="large-6 columns"><span class="bold">TEMPS</span><br/><span>2'58</span></div>
+        <div class="large-6 columns"><span class="bold">SCORE</span><br/><span>{{Utilisateur_points}}</span></div>
+    </div>
+</div>
+
 <main>
-    Vous avez obtenu {{Utilisateur_points}} points à ce sous-niveau. {{Nb_points_necessaires}} points sont nécessaires pour passer au sous-niveau suivant.
+    <div class="bloc">
+        <div class="text-center">
+            <span>Vous avez obtenu {{Utilisateur_points}} points à ce sous-niveau.</span>
+            <br/>
+            <span>{{Nb_points_necessaires}} points sont nécessaires pour passer au sous-niveau suivant.</span>
+        </div>
+
+        <br/><br/>
+
+        <div class="row">
+            <ul class="stack button-group large-8 large-centered columns">
+                <li><a href="#" class="button">Sous niveau suivant</a></li>
+                <li><a href="#" class="button">Rejouer le sous niveau</a></li>
+                <li><a href="#" class="button">Sauvegarder et quitter</a></li>
+                <li><a href="#" class="button">Quitter sans sauvegarder</a></li>
+            </ul>
+        </div>
+    </div>
+
 </main>
