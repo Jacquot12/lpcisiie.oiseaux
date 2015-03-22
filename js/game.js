@@ -147,6 +147,10 @@ function niveauSuivant() {
                     localStorage.setItem('data', JSON.stringify(data));
                     questionSuivante(-1);
                 });
+
+                $( "#rejouer").click(function() {
+                   questionSuivante(-1);
+                });
             }
         })
     }
