@@ -1,37 +1,70 @@
-header
-  div
-    border: solid #000000 5px
-  &:first-child
-    border-right: none
-  &:last-child
-    border-left: none
+#main
+  position: relative
+  height: 100%
+  margin: 0
+  padding: 0
+  background-image: url(../img/bg_game.jpg)
+  background-repeat: no-repeat
+  background-position: center center
+  @include background-size(cover)
+.bloc
+  padding: 1em
+  background-color: rgba(255,255,255,0.7)
+  box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26)
+.header
+  height: 60px
+  width: 100%
+  line-height: 29px
+  padding: 0 25px
+  background-color: rgba(255,255,255,0.8)
+  box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26)
+  .header-left
+    float: left
+  .header-infos
+    display: inline-block
+    padding: 0 10px
+    border-right: 1px solid black
+    &:last-child
+      border-right: 0
+    span.bold
+      font-weight: bold
+main
+  padding-top: 50px
 .proposition
+  position: relative
+  @include border-radius(3px)
+  background-color: #f4f4f4
+  border: 1px solid white
   cursor: pointer
+  @include box-shadow(inset 0 0 1em rgba(0,0,0,0.24),0 0 1em rgba(0,0,0,0.05))
+  margin-bottom: 8px
   .titre
-    border: solid 2px #ccc
-    border-bottom: 0px
+    border-top-left-radius: 3px
+    border-top-right-radius: 3px
+    background-color: #976f4d
     padding: 5px
-    box-sizing: border-box
     cursor: pointer
+    h6
+      color: white
+      font-weight: lighter
   .img
-    border: solid 2px #ccc
-    background-color: #ccc
     cursor: pointer
     img
       cursor: pointer
       max-width: 100%
       max-height: 100%
 .selected
-  .titre
-    border-color: #008CBA
-  .img
-    border-color: #008CBA
+  transition: all .1s ease-in-out
+  @include border-radius(3px)
+  border: 1px solid #CC3199
+  @include box-shadow(inset 0 0 1.4em #CC3199,0 0 1.4em #E873C8)
 .aide
+  background-color: white
+  @include border-radius(3px)
+  padding: 5px
   #aide
-    border: solid 2px #ccc
-    box-sizing: border-box
     padding: 5px
 
-
 .barbas
+  text-align: center
   margin-top: 50px
