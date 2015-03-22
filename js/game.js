@@ -143,10 +143,11 @@ function niveauSuivant() {
                 //TODO Gérer le passage d'un sous-niveau
                 console.log("Sous-niveau ++");
             }
-            //TODO A décommenter plus tard, c'etait pour voir le template de fin de sous-niveau
-            //gameInfos = data;
-            //localStorage.setItem('data', JSON.stringify(data));
-            //questionSuivante(-1);
+            $( "#next-level" ).click(function() {
+                gameInfos = data;
+                localStorage.setItem('data', JSON.stringify(data));
+                questionSuivante(-1);
+            });
         })
     }
     else {
