@@ -142,12 +142,12 @@ function niveauSuivant() {
             else {
                 //TODO Gérer le passage d'un sous-niveau
                 console.log("Sous-niveau ++");
+                $( "#next-level" ).click(function() {
+                    gameInfos = data;
+                    localStorage.setItem('data', JSON.stringify(data));
+                    questionSuivante(-1);
+                });
             }
-            $( "#next-level" ).click(function() {
-                gameInfos = data;
-                localStorage.setItem('data', JSON.stringify(data));
-                questionSuivante(-1);
-            });
         })
     }
     else {
