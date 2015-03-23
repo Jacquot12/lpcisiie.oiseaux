@@ -63,16 +63,32 @@ function questionSuivante(i) {
             }
             data.Niveau = gameInfos.Niveau;
             data.Description_sous_niveau = gameInfos.Description_sous_niveau;
-            $.get('mustache/qcm', function (template) {
-                $('#main').html(Mustache.render(template, data));
-                $('#afficheAide').on('click',function(){
-                    alert($('#idAide').val());
-                });
-                document.getElementById("validation").addEventListener('click', function () {
-                    validerReponse(data);
-                    questionSuivante(i);
-                });
-            })
+            //TODO Appeler le bon template en fonction du type de la question
+            //1 - QCM Réponse unique
+            //2 - QCM Réponse multiple
+            //3 - Oui/non
+            //4 - Texte
+            //5 - Autocomplétion
+            switch (true) {
+                case data.Type_Q == 1:
+                    $.get('mustache/qcm', function (template) {
+                        $('#main').html(Mustache.render(template, data));
+                        $('#afficheAide').on('click', function () {
+                            alert($('#idAide').val());
+                        });
+                        document.getElementById("validation").addEventListener('click', function () {
+                            validerReponse(data);
+                            questionSuivante(i);
+                        });
+                    })
+                    break;
+                case data.Type_Q == 2:
+                    break;
+
+                default:
+                    console.log("default");
+                    break;
+            }
         });
     } else niveauSuivant();
 }
@@ -145,14 +161,14 @@ function niveauSuivant() {
             else {
                 //TODO Gérer le passage d'un sous-niveau
                 console.log("Sous-niveau ++");
-                $( "#next-level" ).click(function() {
+                $("#next-level").click(function () {
                     gameInfos = data;
                     localStorage.setItem('data', JSON.stringify(data));
                     questionSuivante(-1);
                 });
 
-                $( "#rejouer").click(function() {
-                   questionSuivante(-1);
+                $("#rejouer").click(function () {
+                    questionSuivante(-1);
                 });
             }
         })
