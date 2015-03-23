@@ -56,8 +56,9 @@ function questionSuivante(i) {
             for (var prop in propsArr) {
                 //TODO Pour test, à retirer
                 //----->
-                if (propsArr[prop].pivot.res == 1)
-                    console.log("%c" + propsArr[prop].Espece_Ph, "font-weight:bold;");
+                if (propsArr[prop].pivot.res == 1) {
+                    data.reponse = propsArr[prop].Espece_Ph;
+                }
                 //<-----
             }
             data.Niveau = gameInfos.Niveau;
@@ -100,6 +101,8 @@ function validerReponse(data) {
     // Si au moins une reponse selectionnée, juste
     if ($('.selected').length > 0) {
         bonneReponse = true;
+    } else {
+        alert("Vous devez sélectionner une réponse...");
     }
 
     //Si une réponse est fausse, pas de point
