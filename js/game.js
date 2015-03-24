@@ -1,5 +1,14 @@
 var gameInfos = JSON.parse(localStorage.getItem("data"));
 var pointSousNiveau = 0;
+var countdown = 15
+
+var timer = setInterval(function() {
+    $('#countdown').text(countdown--);
+    if (countdown == -1) {
+        niveauSuivant();
+    }
+}, 1000);
+
 /**
  * On vérifie qu'une partie existe sinon on renvoit l'utilisateur au menu principal.
  */
@@ -8,9 +17,9 @@ if (gameInfos === null) {
     window.location.replace(getParentUrl());
 }
 
+
 $(function () {
     var i = -1;
-
     questionSuivante(i);
 
     /**
@@ -37,6 +46,7 @@ $(function () {
     })
 });
 
+
 /**
  * Fonction qui affiche la question suivante. A appeler une première fois avec -1 (pour commencer à la question 0).
  *
@@ -44,6 +54,7 @@ $(function () {
  * Numéro de la question actuelle (donc l'ancienne).
  */
 function questionSuivante(i) {
+
     i++;
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
@@ -90,7 +101,8 @@ function questionSuivante(i) {
                     break;
             }
         });
-    } else niveauSuivant();
+    }
+    else niveauSuivant();
 }
 
 function tmp() {
@@ -178,6 +190,7 @@ function niveauSuivant() {
         alert("Pas assez de bonne réponse, vous recommencez.");
         gameInfos.Utilisateur_points = gameInfos.Utilisateur_points - pointSousNiveau;
         pointSousNiveau = 0;
+        countdown = 15;
         questionSuivante(-1);
     }
 }
