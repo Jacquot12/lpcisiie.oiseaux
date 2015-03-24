@@ -1,13 +1,5 @@
 var gameInfos = JSON.parse(localStorage.getItem("data"));
 var pointSousNiveau = 0;
-var countdown = 15
-
-var timer = setInterval(function() {
-    $('#countdown').text(countdown--);
-    if (countdown == -1) {
-        niveauSuivant();
-    }
-}, 1000);
 
 /**
  * On vérifie qu'une partie existe sinon on renvoit l'utilisateur au menu principal.
@@ -46,6 +38,21 @@ $(function () {
     })
 });
 
+/*
+ * Countdown
+  * clear l'interval
+ */
+$(function(data) {
+    var timer = setInterval(function() {
+        data.Countdown = gameInfos.Countdown--;
+        $('#countdown').text(data.Countdown);
+        if (data.Countdown == 0) {
+            niveauSuivant();
+        }
+    }, 1000);
+});
+
+
 
 /**
  * Fonction qui affiche la question suivante. A appeler une première fois avec -1 (pour commencer à la question 0).
@@ -55,14 +62,38 @@ $(function () {
  */
 function questionSuivante(i) {
 
+
     i++;
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
+
+            //$(function() {
+            //    function Timer() {
+            //        setTimeout(Timer, 1000) ;
+            //        data.Countdown = gameInfos.Countdown--;
+            //        $('#countdown').text(data.Countdown);
+            //        if (data.Countdown == 0){
+            //            niveauSuivant();
+            //        }
+            //    }
+            //});
+
+            //var timer = setInterval(function() {
+            //    data.Countdown = gameInfos.Countdown--;
+            //    $('#countdown').text(data.Countdown--);
+            //    if (data.Countdown == 0) {
+            //        niveauSuivant();
+            //    }
+            //}, 1000);
+
+
+
             shuffle(data.propositions);
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
             data.Utilisateur_points = gameInfos.Utilisateur_points;
             data.Num_sous_niveau = gameInfos.Sous_niveau;
+            data.Countdown = gameInfos.Countdown;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
                 //TODO Pour test, à retirer
@@ -190,7 +221,7 @@ function niveauSuivant() {
         alert("Pas assez de bonne réponse, vous recommencez.");
         gameInfos.Utilisateur_points = gameInfos.Utilisateur_points - pointSousNiveau;
         pointSousNiveau = 0;
-        countdown = 15;
+        gameInfos.Countdown = 15;
         questionSuivante(-1);
     }
 }
