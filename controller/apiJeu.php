@@ -37,7 +37,8 @@ class apiJeu {
         $questions['Niveau'] = NIVEAU;
         $questions['Sous_niveau'] = SOUS_NIVEAU;
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
-        $questions['Utilisateur_points'] = 0;
+        $questions['Points_sous_niveau'] = 0;
+        $questions['Points_total'] = 0;
         echo json_encode($questions);
     }
 

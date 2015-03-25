@@ -1,5 +1,4 @@
 var gameInfos = JSON.parse(localStorage.getItem("data"));
-var pointSousNiveau = 0;
 /**
  * On vérifie qu'une partie existe sinon on renvoit l'utilisateur au menu principal.
  */
@@ -50,7 +49,7 @@ function questionSuivante(i) {
             shuffle(data.propositions);
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
-            data.Utilisateur_points = gameInfos.Utilisateur_points;
+            data.Points_sous_niveau = gameInfos.Points_sous_niveau;
             data.Num_sous_niveau = gameInfos.Sous_niveau;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
@@ -131,9 +130,7 @@ function validerReponse(data) {
 
     if (bonneReponse) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
-        data.Utilisateur_points = gameInfos.Utilisateur_points = gameInfos.Utilisateur_points + Number(data.Nb_points) + 15;
-        pointSousNiveau = pointSousNiveau + Number(data.Nb_points) + 15;
-        console.log(gameInfos.Utilisateur_points);
+        gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau + Number(data.Nb_points) + 15;
         console.log("bonne réponse");
     }
     else {
@@ -144,14 +141,8 @@ function validerReponse(data) {
 /**
  * Permet de terminer une série de questions et d'afficher le résultat.
  */
-function niveauSuivant() {
-
-    if (gameInfos.Utilisateur_points >= gameInfos.Nb_points_necessaires) {
-        //alert("Félicitation, passage au niveau suivant.");
-        $.get('mustache/fin_sous_niveau', function (template) {
-            $('#main').html(Mustache.render(template, gameInfos));
-            console.log(gameInfos);
-        });
+function niveauSuivant(number) {
+    if (gameInfos.Points_sous_niveau || number >= gameInfos.Nb_points_necessaires) {
 
         $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
             if (data.Niveau != gameInfos.Niveau) {
@@ -159,16 +150,22 @@ function niveauSuivant() {
                 console.log("Niveau ++");
             }
             else {
+                gameInfos.Points_total += gameInfos.Points_sous_niveau;
                 //TODO Gérer le passage d'un sous-niveau
-                console.log("Sous-niveau ++");
-                $("#next-level").click(function () {
-                    gameInfos = data;
-                    localStorage.setItem('data', JSON.stringify(data));
-                    questionSuivante(-1);
-                });
+                $.get('mustache/fin_sous_niveau', function (template) {
+                    $('#main').html(Mustache.render(template, gameInfos));
+                    console.log(gameInfos);
+                    $("#next-level").click(function () {
+                        data.Points_total = gameInfos.Points_total;
+                        data.Points_sous_niveau = 0;
+                        gameInfos = data;
+                        localStorage.setItem('data', JSON.stringify(data));
+                        questionSuivante(-1);
+                    });
 
-                $("#rejouer").click(function () {
-                    questionSuivante(-1);
+                    $("#rejouer").click(function () {
+                        questionSuivante(-1);
+                    });
                 });
             }
         })
@@ -176,8 +173,7 @@ function niveauSuivant() {
     else {
         //Nombre insuffisant de points, on recommence
         alert("Pas assez de bonne réponse, vous recommencez.");
-        gameInfos.Utilisateur_points = gameInfos.Utilisateur_points - pointSousNiveau;
-        pointSousNiveau = 0;
+        gameInfos.Points_sous_niveau = 0;
         questionSuivante(-1);
     }
 }
