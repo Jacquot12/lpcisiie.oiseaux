@@ -39,6 +39,7 @@ class apiJeu {
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
         $questions['Points_sous_niveau'] = 0;
         $questions['Points_total'] = 0;
+        $questions['Countdown'] = 15;
         echo json_encode($questions);
     }
 
@@ -61,6 +62,7 @@ class apiJeu {
         $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
         $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
+        $questions['Countdown'] = 15;
 //        $questions['Utilisateur_points'] = 0;
         echo json_encode($questions);
     }

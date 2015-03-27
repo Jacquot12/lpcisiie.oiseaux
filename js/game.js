@@ -36,6 +36,21 @@ $(function () {
     })
 });
 
+
+/*
+ * Countdown
+ * clear l'interval
+ */
+$(function(data) {
+    var timer = setInterval(function() {
+        data.Countdown = gameInfos.Countdown--;
+        $('#countdown').text(data.Countdown);
+        if (data.Countdown == 0) {
+            niveauSuivant();
+        }
+    }, 1000);
+});
+
 /**
  * Fonction qui affiche la question suivante. A appeler une première fois avec -1 (pour commencer à la question 0).
  *
@@ -51,6 +66,7 @@ function questionSuivante(i) {
             data.Total_questions = gameInfos.Nb_questions;
             data.Points_sous_niveau = gameInfos.Points_sous_niveau;
             data.Num_sous_niveau = gameInfos.Sous_niveau;
+            data.Countdown = gameInfos.Countdown;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
                 //TODO Pour test, à retirer
@@ -174,6 +190,7 @@ function niveauSuivant(number) {
         //Nombre insuffisant de points, on recommence
         alert("Pas assez de bonne réponse, vous recommencez.");
         gameInfos.Points_sous_niveau = 0;
+        gameInfos.Countdown = 15;
         questionSuivante(-1);
     }
 }
