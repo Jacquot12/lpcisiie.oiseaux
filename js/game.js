@@ -37,16 +37,20 @@ $(function () {
 });
 
 
-/*
+/**
  * Countdown
  * clear l'interval
+ * Source: http://stackoverflow.com/questions/13440691/jquery-chronometer-plugin
  */
-$(function(data) {
-    var timer = setInterval(function() {
-        data.Countdown = gameInfos.Countdown--;
-        $('#countdown').text(data.Countdown);
-        if (data.Countdown == 0) {
-            niveauSuivant();
+var time = new Date(gameInfos.Countdown * 1000);
+var timer;
+$(function () {
+    timer = setInterval(function () {
+        $('#countdown').text(time.getSeconds());
+        time = new Date(time - 1000);
+        if (time < 0) {
+            clearInterval(timer);
+            timeOut();
         }
     }, 1000);
 });
@@ -193,4 +197,11 @@ function niveauSuivant(number) {
         gameInfos.Countdown = 15;
         questionSuivante(-1);
     }
+}
+/**
+ * Gère la fin de temps d'un niveau, et fait recommencer l'utilisateur
+ */
+function timeOut() {
+    alert("Temps écoulé...");
+    questionSuivante(-1);
 }
