@@ -63,6 +63,7 @@ $(function () {
  * Numéro de la question actuelle (donc l'ancienne).
  */
 function questionSuivante(i) {
+    console.log(gameInfos);
     i++;
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
@@ -103,6 +104,13 @@ function questionSuivante(i) {
                     })
                     break;
                 case data.Type_Q == 2:
+                    break;
+
+                case data.Type_Q == 3:
+                    $.get('mustache/oui_non', function (template) {
+                        $('#on_orniQuizz').html(Mustache.render(template, data));
+
+                    })
                     break;
 
                 default:
