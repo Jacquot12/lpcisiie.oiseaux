@@ -25,3 +25,4 @@ Projet tutoré LP CISIIE 2015
 * affichage indice
 * retiré point si indice affiché
 * aide =/= indice
+* Page de description par ss-niveau
