@@ -84,6 +84,7 @@ function questionSuivante(i) {
             }
             data.Niveau = gameInfos.Niveau;
             data.Description_sous_niveau = gameInfos.Description_sous_niveau;
+            data.Question_sous_niveau = gameInfos.Question_sous_niveau;
             //TODO Appeler le bon template en fonction du type de la question
             //1 - QCM Réponse unique
             //2 - QCM Réponse multiple
@@ -94,8 +95,10 @@ function questionSuivante(i) {
                 case data.Type_Q == 1:
                     $.get('mustache/qcm', function (template) {
                         $('#on_orniQuizz').html(Mustache.render(template, data));
-                        $('#afficheAide').on('click', function () {
-                            alert($('#idAide').val());
+                        var $indice = data.indice.Html_indice;
+                        $('#afficheIndice').one('click', function () {
+                            $("#contenu-indice").append($indice);
+                            gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
                         });
                         document.getElementById("validation").addEventListener('click', function () {
                             validerReponse(data);

@@ -4,12 +4,13 @@ namespace controller;
 use model\Question;
 use model\Q2P;
 use model\SousNiveau;
+use model\Aide;
 
 const NB_POINTS = 10;
 
 class apiQuestion {
     static function getInfo($id){
-        $query = Question::with('propositions')->find($id);
+        $query = Question::with('propositions', 'aide', 'indice')->find($id);
         $query->Nb_points = NB_POINTS;
         foreach($query->propositions as $p){
             $res = Q2P::select('Reponse')

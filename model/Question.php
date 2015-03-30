@@ -17,5 +17,13 @@ class Question extends Model {
     {
         return $this->belongsToMany('model\Proposition', 'orni_q2p', 'Id_question', 'Id_proposition');
     }
+
+    public function aide(){
+        return $this->belongsTo('model\Aide', 'Id_aide');
+    }
+
+    public function indice(){
+        return $this->belongsTo('model\Indice', 'Id_indice');
+    }
 }
 ?>
