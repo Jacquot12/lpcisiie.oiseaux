@@ -1,24 +1,25 @@
 //TODO Changer l'id
-#main
-  position: relative
-  height: 100%
-  margin: 0
-  padding: 0
-  background-image: url(../img/bg_game.jpg)
-  background-repeat: no-repeat
-  background-position: center center
-  @include background-size(cover)
+#on_orniQuizz
+  //position: relative
+  //height: 100%
+  //margin: 0
+  //padding: 0
+  //background-image: url(../img/bg_game.jpg)
+  //background-repeat: no-repeat
+  //background-attachment: fixed
 .bloc
   padding: 1em
   background-color: rgba(255,255,255,0.7)
   box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26)
 .header
+  position: fixed
   height: 60px
   width: 100%
   line-height: 29px
   padding: 0 25px
   background-color: rgba(255,255,255,0.8)
   box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.26)
+  z-index: 1000
   .header-left
     float: left
   .header-infos
@@ -59,12 +60,13 @@ main
   @include border-radius(3px)
   border: 1px solid #CC3199
   @include box-shadow(inset 0 0 1.4em #CC3199,0 0 1.4em #E873C8)
-.aide
+.indice
   background-color: white
   @include border-radius(3px)
   padding: 5px
-  #aide
+  #indice
     padding: 5px
+  #contenu-indice
 
 .barbas
   text-align: center

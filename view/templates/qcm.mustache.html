@@ -25,11 +25,16 @@
         <div class="bloc">
             <div class="row">
                 <div class="medium-9 columns">
-                    <p class="text-center">{{Description_sous_niveau}}</p>
-                    <div class="row" data-equalizer>
+                    <p><b>Description :</b> {{Description_sous_niveau}}</p>
+                    <p><b>Question :</b> {{Question_sous_niveau}}</p>
+                    <div class="aide-question">
+                        <h5><b>Aide :</b></h5>
+                        <p>{{aide.Texte_aide}}</p>
+                    </div>
+                    <div class="row" data-equalizer="crazy">
                         {{#propositions}}
                         <div class="medium-6 large-3 columns">
-                            <div class="proposition" data-equalizer-watch style="height: inherit;">
+                            <div class="proposition" data-equalizer-watch="crazy">
                                 <div class="titre text-center">
                                     <h6>{{Espece_Ph}}</h6>
                                 </div>
@@ -43,18 +48,18 @@
                         {{/propositions}}
                     </div>
                 </div>
-                <div class="medium-3 columns aide">
-                    <div id="aide">
-                        <h3 class="text-center">Aide</h3>
+                <div class="medium-3 columns indice">
+                    <div id="indice">
+                        <h3 class="text-center">Indice</h3>
                         <hr/>
                         <p id="aide_text"><strong>Réponse:</strong> {{ reponse }}</p>
                     </div>
                     <div>
                         <!--<p>Attention! Afficher l'aide fait perdre des points</p>-->
                         <div>
-                            <button class="small expand" id="afficheAide">Afficher l'aide</button>
+                            <button class="small expand" id="afficheIndice">Afficher l'indice</button>
+                            <p id="contenu-indice"></p>
                             <input id="idAide" type="text" value="{{ Id_aide }}" style="display:none"/>
-
                         </div>
                     </div>
                 </div>
