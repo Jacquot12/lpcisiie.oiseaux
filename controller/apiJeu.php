@@ -4,10 +4,11 @@ namespace controller;
 use model\Question;
 use model\SousNiveau;
 
+//TODO Mettre ça dans un .ini
 /**
  * Nombre de questions par sous-niveau
  */
-const QUESTIONS_PAR_SS_NIVEAU = 5;
+const QUESTIONS_PAR_SS_NIVEAU = 10;
 
 /**
  * Niveau de base
@@ -30,16 +31,17 @@ class apiJeu {
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
-        $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant', 'Description_sous_niveau')->where('Id_niveau', '=', NIVEAU)->where('Num_sous_niveau', '=', SOUS_NIVEAU)->get();
+        $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant', 'Description_sous_niveau', 'Nb_questions')->where('Id_niveau', '=', NIVEAU)->where('Num_sous_niveau', '=', SOUS_NIVEAU)->get();
+        //TODO Changer description par question
         $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
-        $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
+        $questions['Nb_questions'] = $nb_points[0]['attributes']['Nb_questions'];
         $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_Validation'];
         $questions['Niveau'] = NIVEAU;
         $questions['Sous_niveau'] = SOUS_NIVEAU;
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
         $questions['Points_sous_niveau'] = 0;
         $questions['Points_total'] = 0;
-        $questions['Countdown'] = 15;
+        $questions['Countdown'] = 59;
         echo json_encode($questions);
     }
 
@@ -62,7 +64,7 @@ class apiJeu {
         $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
         $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
-        $questions['Countdown'] = 15;
+        $questions['Countdown'] = 59;
         echo json_encode($questions);
     }
 }

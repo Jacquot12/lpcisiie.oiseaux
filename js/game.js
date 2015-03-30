@@ -41,6 +41,7 @@ $(function () {
  * Countdown
  * clear l'interval
  * Source: http://stackoverflow.com/questions/13440691/jquery-chronometer-plugin
+ * Demarrer le timer (pour chaque question) quand les images sont chargés
  */
 var time = new Date(gameInfos.Countdown * 1000);
 var timer;
@@ -91,7 +92,7 @@ function questionSuivante(i) {
             switch (true) {
                 case data.Type_Q == 1:
                     $.get('mustache/qcm', function (template) {
-                        $('#main').html(Mustache.render(template, data));
+                        $('#on_orniQuizz').html(Mustache.render(template, data));
                         $('#afficheAide').on('click', function () {
                             alert($('#idAide').val());
                         });
@@ -173,7 +174,7 @@ function niveauSuivant(number) {
                 gameInfos.Points_total += gameInfos.Points_sous_niveau;
                 //TODO Gérer le passage d'un sous-niveau
                 $.get('mustache/fin_sous_niveau', function (template) {
-                    $('#main').html(Mustache.render(template, gameInfos));
+                    $('#on_orniQuizz').html(Mustache.render(template, gameInfos));
                     console.log(gameInfos);
                     $("#next-level").click(function () {
                         data.Points_total = gameInfos.Points_total;
@@ -202,6 +203,7 @@ function niveauSuivant(number) {
  * Gère la fin de temps d'un niveau, et fait recommencer l'utilisateur
  */
 function timeOut() {
-    alert("Temps écoulé...");
-    questionSuivante(-1);
+    //alert("Temps écoulé...");
+    console.log("Temps écoulé...");
+    //questionSuivante(-1);
 }
