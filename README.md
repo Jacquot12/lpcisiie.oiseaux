@@ -13,6 +13,7 @@ Projet tutoré LP CISIIE 2015
 
 * question de type oui/non
 * question de type texte (voir pour autocompletion ensuite)
+* différent media
 * api nombre question = config.ini
 * timer par question 
 * tester autre type de question
