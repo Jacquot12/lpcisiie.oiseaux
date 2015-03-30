@@ -14,3 +14,5 @@ Projet tutoré LP CISIIE 2015
 * api nombre question = config.ini
 * timer par question 
 * tester autre type de question
+* affichage aide 
+* retiré point si aide affiché
