@@ -3,6 +3,7 @@
 namespace controller;
 use model\Question;
 use model\SousNiveau;
+use model\Aide;
 
 //TODO Mettre ça dans un .ini
 /**
@@ -26,14 +27,15 @@ class apiJeu {
      * Créer une nouvelle partie au niveau 1.1
      * Renvoit le json correspondant au premier sous-niveau et ses questions.
      */
+
     static function createNewGame(){
         $questions = Question::select('Id_question')->distinct()->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', SOUS_NIVEAU)->get();
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
-        $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant', 'Description_sous_niveau', 'Nb_questions')->where('Id_niveau', '=', NIVEAU)->where('Num_sous_niveau', '=', SOUS_NIVEAU)->get();
-        //TODO Changer description par question
+        $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant', 'Description_sous_niveau', 'Question_sous_niveau', 'Nb_questions')->where('Id_niveau', '=', NIVEAU)->where('Num_sous_niveau', '=', SOUS_NIVEAU)->get();
         $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
+        $questions['Question_sous_niveau'] = $nb_points[0]['attributes']['Question_sous_niveau'];
         $questions['Nb_questions'] = $nb_points[0]['attributes']['Nb_questions'];
         $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_Validation'];
         $questions['Niveau'] = NIVEAU;
@@ -58,6 +60,7 @@ class apiJeu {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
         $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
+        $questions['Question_sous_niveau'] = $nb_points[0]['attributes']['Question_sous_niveau'];
         $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
         $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_validation'];
         $questions['Niveau'] = (int)$nb_points[0]['attributes']['Id_niveau'];
