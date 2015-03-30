@@ -1,4 +1,4 @@
-# lpcisiie.oiseaux
+# lpcisiie.oiseaux:registered:
 Projet tutoré LP CISIIE 2015
 
 
@@ -16,8 +16,12 @@ Projet tutoré LP CISIIE 2015
 * différent media
 * mettre son avec jplayer 2.9.2
 * jquery 1.*.* (pas serie 2.*.*)
+* j'ai oublié un truc :poop:
+* points selon temps
+* top-score (style arcade)- securiser post
 * api nombre question = config.ini
-* timer par question -- lancer le timer quand image charger 
+* timer par question -- lancer le timer quand image charger
 * tester autre type de question
-* affichage aide 
-* retiré point si aide affiché
+* affichage indice
+* retiré point si indice affiché
+* aide =/= indice
