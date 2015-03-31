@@ -11,7 +11,7 @@ Projet tutoré LP CISIIE 2015
 
 ## reunion 30mars
 
-* question de type oui/non
+* FAIT : question de type oui/non
 * question de type texte (voir pour autocompletion ensuite)
 * différent media
 * mettre son avec jplayer 2.9.2
@@ -21,7 +21,7 @@ Projet tutoré LP CISIIE 2015
 * top-score (style arcade)- securiser post
 * api nombre question = config.ini
 * timer par question -- lancer le timer quand image charger
-* tester autre type de question
+* FAIT : tester autre type de question
 * affichage indice
 * retiré point si indice affiché
 * aide =/= indice
