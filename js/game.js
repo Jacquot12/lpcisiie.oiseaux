@@ -63,10 +63,11 @@ $(function () {
  * Numéro de la question actuelle (donc l'ancienne).
  */
 function questionSuivante(i) {
-    console.log(gameInfos);
     i++;
+    console.log(gameInfos);
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
+            console.log("Bonne reponse SEULEMENT POUR TYPE 3 (1=oui/0=non): "+data.propositions[0].pivot.res);
             shuffle(data.propositions);
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
@@ -112,7 +113,16 @@ function questionSuivante(i) {
                 case data.Type_Q == 3:
                     $.get('mustache/oui_non', function (template) {
                         $('#on_orniQuizz').html(Mustache.render(template, data));
+                        var $indice = data.indice.Html_indice;
+                        $('#afficheIndice').one('click', function () {
+                            $("#contenu-indice").append($indice);
+                            gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
+                        });
 
+                        document.getElementById("validation").addEventListener('click', function () {
+                            validerReponse(data);
+                            questionSuivante(i);
+                        });
                     })
                     break;
 
@@ -141,24 +151,41 @@ function tmp() {
 function validerReponse(data) {
     var nbQuestions = gameInfos.Nb_questions;
 
-    //TODO Validation des réponses
     // Defaut à faux (suivre tout pour comprendre)
     var bonneReponse = false;
 
-    // Si au moins une reponse selectionnée, juste
-    if ($('.selected').length > 0) {
-        bonneReponse = true;
-    } else {
-        alert("Vous devez sélectionner une réponse...");
+    //TODO Validation des réponses
+    switch (true) {
+        case data.Type_Q == 1:
+            // Si au moins une reponse selectionnée, juste
+            if ($('.selected').length > 0) {
+                bonneReponse = true;
+            } else {
+                alert("Vous devez sélectionner une réponse...");
+            }
+
+            //Si une réponse est fausse, pas de point
+            $('.selected').each(function (e) {
+                var el = $(".selected:eq(" + e + ") input:first").val();
+                if (el == 0) {
+                    bonneReponse = false
+                }
+            });
+            break;
+
+        case data.Type_Q == 2:
+            break;
+
+        case data.Type_Q == 3:
+            //console.log($('#oui').is(':checked'));
+            //console.log(data.propositions[0].pivot.res);
+            if( ($('#oui').is(':checked') && data.propositions[0].pivot.res == 1) ||
+                ($('#non').is(':checked') && data.propositions[0].pivot.res == 0) ) {
+                bonneReponse = true;
+            }
+            break;
     }
 
-    //Si une réponse est fausse, pas de point
-    $('.selected').each(function (e) {
-        var el = $(".selected:eq(" + e + ") input:first").val();
-        if (el == 0) {
-            bonneReponse = false
-        }
-    });
 
     if (bonneReponse) {
         //TODO Retirer les 15 points ajoutés qui permettent de dépasser le nombre de points nécessaires
