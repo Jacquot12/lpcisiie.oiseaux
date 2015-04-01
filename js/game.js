@@ -185,14 +185,6 @@ function validerReponse(data) {
     switch (true) {
         case data.Type_Q == 1:
 
-            //var el = $("input[type=radio][name='rep']:checked").val();
-            //console.log(el);
-            //if (el == 0) {
-            //    bonneReponse = false
-            //}
-            //else{
-            //    bonneReponse = true;
-            //}
             $('.selected').each(function (e) {
                 var el = $(".selected:eq(" + e + ") input.res").val();
                 console.log(el);
@@ -222,8 +214,6 @@ function validerReponse(data) {
             break;
 
         case data.Type_Q == 3:
-            //console.log($('#oui').is(':checked'));
-            //console.log(data.propositions[0].pivot.res);
             if( ($('#oui').is(':checked') && data.propositions[0].pivot.res == 1) ||
                 ($('#non').is(':checked') && data.propositions[0].pivot.res == 0) ) {
                 bonneReponse = true;
