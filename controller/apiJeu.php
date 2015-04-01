@@ -70,6 +70,72 @@ class apiJeu {
             ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])
             ->get();
 
+<<<<<<< HEAD
+=======
+        switch ($sous_niveau)
+        {
+            case 1:
+                $questions = Question::select('Id_question')->distinct()->where('Id_question', '<', 1000)->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Sous_niveau_suivant'])->get();
+                foreach($questions as $q) {
+                    $q['Url'] = 'api/question/'.$q['Id_question'];
+                }
+                break;
+
+            case 2:
+                $questions = Question::select('Id_question')->distinct()
+                    ->where('Type_Q', '=', 3)
+                    ->where('Media_Q', '=', 1)
+                    ->orderByRaw('RAND()')
+                    ->limit(QUESTIONS_PAR_SS_NIVEAU)
+                    ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])->get();;
+                foreach($questions as $q) {
+                    $q['Url'] = 'api/question/'.$q['Id_question'];
+                }
+                break;
+
+            case 3:
+                $questions = Question::select('Id_question')->distinct()
+                    ->where('Type_Q', '=', 1)
+                    ->where('Media_Q', '=', 7)
+                    ->orderByRaw('RAND()')
+                    ->limit(QUESTIONS_PAR_SS_NIVEAU)
+                    ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])
+                    ->get();
+                foreach($questions as $q) {
+                    $q['Url'] = 'api/question/'.$q['Id_question'];
+                }
+                break;
+
+            case 7:
+                $questions = Question::select('Id_question')->distinct()
+                    ->where('Type_Q', '=', 4)
+                    ->where('Media_Q', '=', 9)
+                    ->orderByRaw('RAND()')
+                    ->limit(QUESTIONS_PAR_SS_NIVEAU)
+                    ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])
+                    ->get();
+                foreach($questions as $q) {
+                    $q['Url'] = 'api/question/'.$q['Id_question'];
+                }
+                break;
+
+        }
+
+        $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
+        $questions['Question_sous_niveau'] = $nb_points[0]['attributes']['Question_sous_niveau'];
+        $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
+        $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_validation'];
+        $questions['Niveau'] = (int)$nb_points[0]['attributes']['Id_niveau'];
+        $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
+        $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
+        $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
+        $questions['Countdown'] = 59;
+        echo json_encode($questions);
+
+        // ------ OLD ------
+        /*$nb_points = SousNiveau::select()->where('Id_sous_niveau', '=', $sous_niveau)->get();
+        $questions = Question::select('Id_question')->distinct()->where('Id_question', '<', 1000)->orderByRaw('RAND()')->limit(QUESTIONS_PAR_SS_NIVEAU)->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Sous_niveau_suivant'])->get();
+>>>>>>> 71083de0424cee495215b3c2459f861ba4ef676b
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }

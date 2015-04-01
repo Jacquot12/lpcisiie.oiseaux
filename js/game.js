@@ -150,6 +150,25 @@ function questionSuivante(i) {
                     })
                     break;
 
+                case data.Type_Q == 4:
+                    switch (true) {
+                        case data.Media_Q == 9:
+                            $.get('mustache/qcm_1_9', function (template) {
+                                $('#on_orniQuizz').html(Mustache.render(template, data));
+                                var $indice = data.indice.Html_indice;
+                                $('#afficheIndice').one('click', function () {
+                                    $("#contenu-indice").append($indice);
+                                    gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
+                                });
+                                document.getElementById("validation").addEventListener('click', function () {
+                                    validerReponse(data);
+                                    questionSuivante(i);
+                                });
+                            })
+                            break;
+                    }
+                    break;
+
                 default:
                     console.log("default");
                     break;
