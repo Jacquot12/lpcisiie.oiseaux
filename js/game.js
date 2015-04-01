@@ -155,7 +155,7 @@ function questionSuivante(i) {
                 case data.Type_Q == 5:
                     switch (true) {
                         case data.Media_Q == 5:
-                            $.get('mustache/qcm_5_5', function (template) {
+                            $.get('mustache/5_5', function (template) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
                                 displayIndice(data);
                                 boutonValidation(data, i);
