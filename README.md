@@ -13,7 +13,7 @@ Projet tutoré LP CISIIE 2015
 
 * FAIT : question de type oui/non
 * FAIT : question photo+silhouette (type 1 media 7)
-* question de type texte (voir pour autocompletion ensuite)
+* FAIT /!\ manque autocompletion : question de type texte (voir pour autocompletion ensuite)
 * différent media
 * mettre son avec jplayer 2.9.2
 * FAIT : jquery 1.*.* (pas serie 2.*.*)
