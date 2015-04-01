@@ -31,11 +31,6 @@
                         <h5><b>Aide :</b></h5>
                         <p>{{aide.Texte_aide}}</p>
                     </div>
-                    <div class="row">
-                        <div class="small-12 columns text-center">
-                            <img src="{{bonne_rep}}" alt=""/>
-                        </div>
-                    </div>
                     <div class="row" data-equalizer="crazy">
                         {{#propositions}}
                         <div class="medium-6 large-3 columns">
@@ -44,8 +39,7 @@
                                     <h6>{{Espece_Ph}}</h6>
                                 </div>
                                 <div class="img text-center">
-                                    <img src="http://www.oiseaux.net/{{Chemin_Sil}}" alt="placeholder"/>
-                                    <!--<img src="img/rollier.d.europe.luca.1p.jpg" alt=""/>-->
+                                    <img src="{{url}}" alt="placeholder"/>
                                 </div>
                                 <input type="text" value="{{ pivot.res }}" name="res" style="display: none" />
                             </div>

@@ -31,21 +31,21 @@
                         <h5><b>Aide :</b></h5>
                         <p>{{aide.Texte_aide}}</p>
                     </div>
+                    <img src="{{rep_sil}}" alt=""/>
                     <div class="row" data-equalizer="crazy">
-                        {{#propositions}}
-                        <div class="medium-6 large-3 columns">
-                            <div class="proposition" data-equalizer-watch="crazy">
-                                <div class="titre text-center">
-                                    <h6>{{Espece_Ph}}</h6>
-                                </div>
-                                <div class="img text-center">
-                                    <img src="{{url}}" alt="placeholder"/>
-                                    <!--<img src="img/rollier.d.europe.luca.1p.jpg" alt=""/>-->
-                                </div>
-                                <input type="text" value="{{ pivot.res }}" name="res" style="display: none" />
-                            </div>
+                        <div class="medium-3">
+                            <img src="{{bonne_rep}}" alt=""/>
                         </div>
-                        {{/propositions}}
+                        <div class="medium-6">
+                            {{#propositions}}
+                            <div class="radio-group">
+                                <div>
+                                    <input class="radio-btn" type="radio" name="rep" id="rep"><label for="rep">{{Espece_Ph}}</label>
+                                </div>
+                                <input type="text" value="{{ pivot.res }}" name="res" class="res" style="display: none" />
+                            </div>
+                            {{/propositions}}
+                        </div>
                     </div>
                 </div>
                 <div class="medium-3 columns indice">

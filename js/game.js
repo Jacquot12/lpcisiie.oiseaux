@@ -27,10 +27,18 @@ $(function () {
         //    return message;
         //}
 
-    $(document).on('click', '.proposition', function (e) {
+    $(document).on('click', '.proposition, .radio-group', function (e) {
         $(".proposition").removeClass("selected");
         $(this).addClass("selected");
+
+        $(".radio-group").removeClass("selected");
+        $(this).addClass("selected");
     });
+
+    //$(document).on('click', '.radio-btn', function (e) {
+    //    $(".radio-btn").removeClass("tamer");
+    //    $(this).addClass("tamer");
+    //});
 });
 
 
@@ -95,7 +103,7 @@ function questionSuivante(i) {
                 case data.Type_Q == 1:
                     switch (true){
                         case data.Media_Q == 1:
-                            $.get('mustache/qcm', function (template) {
+                            $.get('mustache/qcm_1_1', function (template) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
                                 displayIndice(data);
                                 boutonValidation(data, i);
@@ -123,12 +131,15 @@ function questionSuivante(i) {
                     break;
 
                 case data.Type_Q == 3:
-                    $.get('mustache/oui_non', function (template) {
-                        $('#on_orniQuizz').html(Mustache.render(template, data));
-                        displayIndice(data);
-                        boutonValidation(data, i);
-                    });
-                    break;
+                    switch (true){
+                        case data.Media_Q == 1:
+                            $.get('mustache/3_1', function (template) {
+                                $('#on_orniQuizz').html(Mustache.render(template, data));
+                                displayIndice(data);
+                                boutonValidation(data, i);
+                            });
+                            break;
+                    }
 
                 case data.Type_Q == 4:
                     switch (true) {
@@ -183,7 +194,8 @@ function validerReponse(data) {
             //    bonneReponse = true;
             //}
             $('.selected').each(function (e) {
-                var el = $(".selected:eq(" + e + ") input:first").val();
+                var el = $(".selected:eq(" + e + ") input.res").val();
+                console.log(el);
                 if (el == 0) {
                     bonneReponse = false
                 }else {
