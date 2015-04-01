@@ -1,0 +1,79 @@
+<div class="wrapper-game">
+    <div class="header text-center">
+        <div class="header-left">
+            <div class="header-infos">
+                <span class="bold">NIVEAU</span><br>
+                <span>{{Niveau}}.{{Num_sous_niveau}}</span>
+            </div>
+            <div class="header-infos">
+                <span class="bold">QUESTION</span><br>
+                <span>{{Num_question}}/{{Total_questions}}</span>
+            </div>
+        </div>
+        <div style="float: right;">
+            <div class="header-infos">
+                <span class="bold">TEMPS</span><br>
+                <span id="countdown">{{Countdown}}</span>
+            </div>
+            <div class="header-infos">
+                <span class="bold">SCORE</span><br>
+                <span>{{Points_sous_niveau}}</span>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="bloc">
+            <div class="row">
+                <div class="medium-9 columns">
+                    <h1>SDFGHJ</h1>
+                    <p><b>Description :</b> {{Description_sous_niveau}}</p>
+                    <p><b>Question :</b> {{Question_sous_niveau}}</p>
+                    <div class="aide-question">
+                        <h5><b>Aide :</b></h5>
+                        <p>{{aide.Texte_aide}}</p>
+                    </div>
+                    <img src="{{rep_sil}}" alt=""/>
+                    <div class="row" data-equalizer="crazy">
+                        {{#propositions}}
+                        <div class="medium-6 large-3 columns">
+                            <div class="proposition" data-equalizer-watch="crazy">
+                                <div class="titre text-center">
+                                    <h6>{{Espece_Ph}}</h6>
+                                </div>
+                                <div class="img text-center">
+                                    <img src="http://www.oiseaux.net/{{Chemin_Sil}}" alt="placeholder"/>
+                                    <!--<img src="img/rollier.d.europe.luca.1p.jpg" alt=""/>-->
+                                </div>
+                                <input type="text" value="{{ pivot.res }}" name="res" style="display: none" />
+                            </div>
+                        </div>
+                        {{/propositions}}
+                    </div>
+                </div>
+                <div class="medium-3 columns indice">
+                    <div id="indice">
+                        <h3 class="text-center">Indice</h3>
+                        <hr/>
+                        <p id="aide_text"><strong>Réponse:</strong> {{ reponse }}</p>
+                    </div>
+                    <div>
+                        <!--<p>Attention! Afficher l'aide fait perdre des points</p>-->
+                        <div>
+                            <button class="small expand" id="afficheIndice">Afficher l'indice</button>
+                            <p id="contenu-indice"></p>
+                            <input id="idAide" type="text" value="{{ Id_aide }}" style="display:none"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row barbas">
+                <div class="small-5 small-offset-3 medium-2 medium-offset-4 columns">
+                    <button class="button expand small" id="validation">Valider</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script type="text/javascript">
+
+</script>
