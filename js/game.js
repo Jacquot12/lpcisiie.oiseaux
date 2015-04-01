@@ -100,15 +100,8 @@ function questionSuivante(i) {
                         case data.Media_Q == 1:
                             $.get('mustache/qcm', function (template) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
-                                var $indice = data.indice.Html_indice;
-                                $('#afficheIndice').one('click', function () {
-                                    $("#contenu-indice").append($indice);
-                                    gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
-                                });
-                                document.getElementById("validation").addEventListener('click', function () {
-                                    validerReponse(data);
-                                    questionSuivante(i);
-                                });
+                                displayIndice(data);
+                                boutonValidation(data, i);
                             })
                             break;
 
@@ -118,15 +111,8 @@ function questionSuivante(i) {
                         case data.Media_Q == 7:
                             $.get('mustache/qcm_1_7', function (template) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
-                                var $indice = data.indice.Html_indice;
-                                $('#afficheIndice').one('click', function () {
-                                    $("#contenu-indice").append($indice);
-                                    gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
-                                });
-                                document.getElementById("validation").addEventListener('click', function () {
-                                    validerReponse(data);
-                                    questionSuivante(i);
-                                });
+                                displayIndice(data);
+                                boutonValidation(data, i);
                             })
                             break;
                     }
@@ -137,16 +123,8 @@ function questionSuivante(i) {
                 case data.Type_Q == 3:
                     $.get('mustache/oui_non', function (template) {
                         $('#on_orniQuizz').html(Mustache.render(template, data));
-                        var $indice = data.indice.Html_indice;
-                        $('#afficheIndice').one('click', function () {
-                            $("#contenu-indice").append($indice);
-                            gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
-                        });
-
-                        document.getElementById("validation").addEventListener('click', function () {
-                            validerReponse(data);
-                            questionSuivante(i);
-                        });
+                        displayIndice(data);
+                        boutonValidation(data, i);
                     })
                     break;
 
@@ -155,15 +133,8 @@ function questionSuivante(i) {
                         case data.Media_Q == 9:
                             $.get('mustache/qcm_1_9', function (template) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
-                                var $indice = data.indice.Html_indice;
-                                $('#afficheIndice').one('click', function () {
-                                    $("#contenu-indice").append($indice);
-                                    gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
-                                });
-                                document.getElementById("validation").addEventListener('click', function () {
-                                    validerReponse(data);
-                                    questionSuivante(i);
-                                });
+                                displayIndice(data);
+                                boutonValidation(data, i);
                             })
                             break;
                     }
@@ -287,4 +258,19 @@ function timeOut() {
     //alert("Temps écoulé...");
     console.log("Temps écoulé...");
     //questionSuivante(-1);
+}
+
+function displayIndice(data) {
+    var $indice = data.indice.Html_indice;
+    $('#afficheIndice').one('click', function () {
+        $("#contenu-indice").append($indice);
+        gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
+    });
+}
+
+function boutonValidation(data, i) {
+    document.getElementById("validation").addEventListener('click', function () {
+        validerReponse(data);
+        questionSuivante(i);
+    });
 }
