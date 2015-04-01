@@ -72,8 +72,7 @@ function questionSuivante(i) {
     console.log(gameInfos);
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
-            console.log(data);
-            console.log("Bonne reponse SEULEMENT POUR TYPE 3 (1=oui/0=non): "+data.propositions[0].pivot.res);
+//            console.log(data);
             shuffle(data.propositions);
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
@@ -153,6 +152,18 @@ function questionSuivante(i) {
                     }
                     break;
 
+                case data.Type_Q == 5:
+                    switch (true) {
+                        case data.Media_Q == 5:
+                            $.get('mustache/qcm_5_5', function (template) {
+                                $('#on_orniQuizz').html(Mustache.render(template, data));
+                                displayIndice(data);
+                                boutonValidation(data, i);
+                            })
+                            break;
+                    }
+                    break;
+
                 default:
                     console.log("default");
                     break;
@@ -218,6 +229,24 @@ function validerReponse(data) {
                 ($('#non').is(':checked') && data.propositions[0].pivot.res == 0) ) {
                 bonneReponse = true;
             }
+            break;
+
+        case data.Type_Q == 4:
+            // Pareil que Type_Q = 5
+            break;
+
+        case data.Type_Q == 5:
+            // Transformer en minuscules en supprimant les accents puis les majuscules.
+            var to_min_user = noAccent($('#rep_text').val());
+            to_min_user = to_min_user.toLowerCase();
+
+            var to_min_rep = noAccent(data.propositions[0].Espece_Ph);
+            to_min_rep = to_min_rep.toLowerCase();
+
+            if(to_min_user === to_min_rep) {
+                bonneReponse = true;
+            }
+
             break;
     }
 
@@ -294,4 +323,24 @@ function boutonValidation(data, i) {
         validerReponse(data);
         questionSuivante(i);
     });
+}
+
+function preg_replace (array_pattern, array_pattern_replace, string)  {
+    var new_string = String (string);
+    for (i=0; i<array_pattern.length; i++) {
+        var reg_exp= RegExp(array_pattern[i], "gi");
+        var val_to_replace = array_pattern_replace[i];
+        new_string = new_string.replace (reg_exp, val_to_replace);
+    }
+    return new_string;
+}
+
+function noAccent (string) {
+    var new_string = "";
+    var pattern_accent = new Array("é", "è", "ê", "ë", "ç", "à", "â", "ä", "î", "ï", "ù", "ô", "ó", "ö");
+    var pattern_replace_accent = new Array("e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "o", "o", "o");
+    if (string && string!= "") {
+        new_string = preg_replace(pattern_accent, pattern_replace_accent, string);
+    }
+    return new_string;
 }
