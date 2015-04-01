@@ -28,12 +28,9 @@ $(function () {
         //}
 
     $(document).on('click', '.proposition', function (e) {
-        if ($(e.currentTarget).hasClass('selected')) {
-            $(e.currentTarget).removeClass('selected');
-        } else {
-            $(e.currentTarget).addClass('selected');
-        }
-    })
+        $(".proposition").removeClass("selected");
+        $(this).addClass("selected");
+    });
 });
 
 
@@ -78,7 +75,7 @@ function questionSuivante(i) {
             var propsArr = data.propositions;
             for (var prop in propsArr) {
                 if (propsArr[prop].pivot.res == 1) {
-                    data.rep_sil = propsArr[prop].url;
+                    data.bonne_rep = propsArr[prop].url;
                     //TODO Pour test, à retirer
                     //----->
                     data.reponse = propsArr[prop].Espece_Ph;
@@ -102,10 +99,15 @@ function questionSuivante(i) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
                                 displayIndice(data);
                                 boutonValidation(data, i);
-                            })
+                            });
                             break;
 
                         case data.Media_Q == 5:
+                            $.get('mustache/qcm_1_5', function (template) {
+                                $('#on_orniQuizz').html(Mustache.render(template, data));
+                                displayIndice(data);
+                                boutonValidation(data, i);
+                            });
                             break;
 
                         case data.Media_Q == 7:
@@ -113,7 +115,7 @@ function questionSuivante(i) {
                                 $('#on_orniQuizz').html(Mustache.render(template, data));
                                 displayIndice(data);
                                 boutonValidation(data, i);
-                            })
+                            });
                             break;
                     }
                     break;
@@ -125,7 +127,7 @@ function questionSuivante(i) {
                         $('#on_orniQuizz').html(Mustache.render(template, data));
                         displayIndice(data);
                         boutonValidation(data, i);
-                    })
+                    });
                     break;
 
                 case data.Type_Q == 4:
@@ -171,6 +173,26 @@ function validerReponse(data) {
     //TODO Validation des réponses
     switch (true) {
         case data.Type_Q == 1:
+
+            //var el = $("input[type=radio][name='rep']:checked").val();
+            //console.log(el);
+            //if (el == 0) {
+            //    bonneReponse = false
+            //}
+            //else{
+            //    bonneReponse = true;
+            //}
+            $('.selected').each(function (e) {
+                var el = $(".selected:eq(" + e + ") input:first").val();
+                if (el == 0) {
+                    bonneReponse = false
+                }else {
+                    bonneReponse = true;
+                }
+            });
+            break;
+
+        case data.Type_Q == 2:
             // Si au moins une reponse selectionnée, juste
             if ($('.selected').length > 0) {
                 bonneReponse = true;
@@ -185,9 +207,6 @@ function validerReponse(data) {
                     bonneReponse = false
                 }
             });
-            break;
-
-        case data.Type_Q == 2:
             break;
 
         case data.Type_Q == 3:
