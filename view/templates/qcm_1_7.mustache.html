@@ -27,10 +27,6 @@
                 <div class="medium-9 columns">
                     <p><b>Description :</b> {{Description_sous_niveau}}</p>
                     <p><b>Question :</b> {{Question_sous_niveau}}</p>
-                    <div class="aide-question">
-                        <h5><b>Aide :</b></h5>
-                        <p>{{aide.Texte_aide}}</p>
-                    </div>
                     <div class="row">
                         <div class="text-center photo-1-5-container columns">
                             <img src="{{bonne_rep}}" alt=""/>
@@ -71,6 +67,16 @@
             <div class="row barbas">
                 <div class="small-5 small-offset-3 medium-2 medium-offset-4 columns">
                     <button class="button expand small" id="validation">Valider</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="columns">
+                    <div class="aide-question">
+                        <h5><b>Aide :</b></h5>
+                        {{#propositions}}
+                        <p>{{pivot.aide.Texte_aide}}</p>
+                        {{/propositions}}
+                    </div>
                 </div>
             </div>
         </div>

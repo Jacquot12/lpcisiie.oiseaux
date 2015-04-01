@@ -5,19 +5,22 @@ use model\Question;
 use model\Q2P;
 use model\SousNiveau;
 use model\Aide;
+use model\Indice;
 
 const NB_POINTS = 10;
 
 class apiQuestion {
     static function getInfo($id){
-        $query = Question::with('propositions', 'aide', 'indice')->find($id);
+        $query = Question::with('propositions', 'indice')->find($id);
         $query->Nb_points = NB_POINTS;
         foreach($query->propositions as $p){
-            $res = Q2P::select('Reponse')
+            $res = Q2P::select('Reponse', 'Id_aide', 'Id_indice')
                     ->where('Id_question','=',$p->pivot->Id_question)
                     ->where('Id_proposition','=',$p->pivot->Id_proposition)
                     ->get();
-            $p->pivot->res = $res[0]->Reponse;
+            $p->pivot->res      = $res[0]->Reponse;
+            $p->pivot->aide     =  Aide::find($res[0]->Id_aide);
+//            $p->pivot->indice   =  Indice::find($res[0]->Id_indice);
             $p->url = "http://www.oiseaux.net/photos/" . $p->Chemin_Img;
         }
         echo json_encode($query);
