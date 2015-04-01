@@ -67,6 +67,7 @@ function questionSuivante(i) {
     console.log(gameInfos);
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
+            console.log(data);
             console.log("Bonne reponse SEULEMENT POUR TYPE 3 (1=oui/0=non): "+data.propositions[0].pivot.res);
             shuffle(data.propositions);
             data.Num_question = i + 1;
@@ -76,12 +77,13 @@ function questionSuivante(i) {
             data.Countdown = gameInfos.Countdown;
             var propsArr = data.propositions;
             for (var prop in propsArr) {
-                //TODO Pour test, à retirer
-                //----->
                 if (propsArr[prop].pivot.res == 1) {
+                    data.rep_sil = propsArr[prop].url;
+                    //TODO Pour test, à retirer
+                    //----->
                     data.reponse = propsArr[prop].Espece_Ph;
+                    //<-----
                 }
-                //<-----
             }
             data.Niveau = gameInfos.Niveau;
             data.Description_sous_niveau = gameInfos.Description_sous_niveau;
@@ -94,18 +96,40 @@ function questionSuivante(i) {
             //5 - Autocomplétion
             switch (true) {
                 case data.Type_Q == 1:
-                    $.get('mustache/qcm', function (template) {
-                        $('#on_orniQuizz').html(Mustache.render(template, data));
-                        var $indice = data.indice.Html_indice;
-                        $('#afficheIndice').one('click', function () {
-                            $("#contenu-indice").append($indice);
-                            gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
-                        });
-                        document.getElementById("validation").addEventListener('click', function () {
-                            validerReponse(data);
-                            questionSuivante(i);
-                        });
-                    })
+                    switch (true){
+                        case data.Media_Q == 1:
+                            $.get('mustache/qcm', function (template) {
+                                $('#on_orniQuizz').html(Mustache.render(template, data));
+                                var $indice = data.indice.Html_indice;
+                                $('#afficheIndice').one('click', function () {
+                                    $("#contenu-indice").append($indice);
+                                    gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
+                                });
+                                document.getElementById("validation").addEventListener('click', function () {
+                                    validerReponse(data);
+                                    questionSuivante(i);
+                                });
+                            })
+                            break;
+
+                        case data.Media_Q == 5:
+                            break;
+
+                        case data.Media_Q == 7:
+                            $.get('mustache/qcm_1_7', function (template) {
+                                $('#on_orniQuizz').html(Mustache.render(template, data));
+                                var $indice = data.indice.Html_indice;
+                                $('#afficheIndice').one('click', function () {
+                                    $("#contenu-indice").append($indice);
+                                    gameInfos.Points_sous_niveau = gameInfos.Points_sous_niveau-5;
+                                });
+                                document.getElementById("validation").addEventListener('click', function () {
+                                    validerReponse(data);
+                                    questionSuivante(i);
+                                });
+                            })
+                            break;
+                    }
                     break;
                 case data.Type_Q == 2:
                     break;
