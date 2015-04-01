@@ -72,8 +72,7 @@ function questionSuivante(i) {
     console.log(gameInfos);
     if (i < gameInfos.Nb_questions) {
         $.get(gameInfos[i].Url, function (data) {
-            console.log(data);
-            console.log("Bonne reponse SEULEMENT POUR TYPE 3 (1=oui/0=non): "+data.propositions[0].pivot.res);
+//            console.log(data);
             shuffle(data.propositions);
             data.Num_question = i + 1;
             data.Total_questions = gameInfos.Nb_questions;
