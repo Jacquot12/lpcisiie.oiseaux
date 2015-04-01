@@ -22,7 +22,7 @@ Projet tutoré LP CISIIE 2015
 * api nombre question = config.ini
 * timer par question -- lancer le timer quand image charger
 * FAIT : tester autre type de question
-* affichage indice
-* retiré point si indice affiché
+* Fait : affichage indice
+* Fait : retiré point si indice affiché
 * aide =/= indice
 * Page de description par ss-niveau
