@@ -13,6 +13,7 @@ Projet tutoré LP CISIIE 2015
 
 * FAIT : question de type oui/non
 * FAIT : question photo+silhouette (type 1 media 7)
+* FAIT : passage niveau suivant
 * FAIT /!\ manque autocompletion : question de type texte (voir pour autocompletion ensuite)
 * différent media
 * mettre son avec jplayer 2.9.2
@@ -22,7 +23,7 @@ Projet tutoré LP CISIIE 2015
 * api nombre question = config.ini
 * timer par question -- lancer le timer quand image charger
 * FAIT : tester autre type de question
-* Fait : affichage indice
-* Fait : retiré point si indice affiché
+* FAIT : affichage indice
+* FAIT : retiré point si indice affiché
 * aide =/= indice
 * Page de description par ss-niveau

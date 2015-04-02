@@ -1,6 +1,7 @@
 <div class="header">
     <div class="row text-center">
         <div class="large-4 columns"><span class="bold">NIVEAU</span><br/><span>{{Niveau}}.{{Sous_niveau}}</span></div>
+        <div class="large-4 columns"><span class="bold">TEMPS</span><br/><span>2'58</span></div>
         <div class="large-4 columns"><span class="bold">SCORE</span><br/><span>{{Points_sous_niveau}}</span></div>
     </div>
 </div>
@@ -8,18 +9,20 @@
 <main>
     <div class="bloc">
         <div class="text-center">
-            <span>Vous avez obtenu {{Points_sous_niveau}} points au sous-niveau {{Niveau}}.{{Sous_niveau}}</span>
             <br/>
-            <span>{{Nb_points_necessaires}} points sont nécessaires au sous-niveau {{Sous_niveau}} pour passer à la suite.</span>
+            <span><b>Bravo ! Le niveau {{Niveau}} est terminé !</b></span>
             <br/>
-            <span>Votre score total est de <b>{{Points_total}}</b>b> points.</span>
+            <span>Vous avez obtenu {{Points_sous_niveau}} points au sous-niveau {{Sous_niveau}}.</span>
+            <br/>
+            <span>Votre score total est de {{Points_total}} points.</span>
         </div>
 
         <br/><br/>
 
         <div class="row">
             <ul class="stack button-group large-8 large-centered columns">
-                <li><a href="" class="button" id="next-ss-level">Sous-niveau suivant</a></li>
+                <li><a href="" class="button" id="next-level">Niveau suivant</a></li>
+                <li><a href="" class="button" id="">Rejouer le niveau</a></li>
                 <li><a href="" class="button" id="rejouer">Rejouer le sous-niveau</a></li>
                 <li><a href="" class="button">Sauvegarder et quitter</a></li>
                 <li><a href="" class="button">Quitter sans sauvegarder</a></li>
