@@ -67,6 +67,17 @@ $app->group('/api',function() use($app){
         $app->response->headers->set('Content-Type', 'application/json');
         controller\apiPhotos::getPhotos($id);
     });
+
+    $app->get('/score/',function() use ($app){
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiScore::getScore();
+    });
+    $app->post('/score/',function() use ($app){
+        $nom=$app->request()->post('nom');
+        $score=$app->request()->post('score');
+        $app->response->headers->set('Content-Type', 'application/json');
+        controller\apiScore::addScore($nom,$score);
+    });
 });
 
 

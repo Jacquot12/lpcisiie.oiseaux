@@ -93,7 +93,7 @@ function questionSuivante(i) {
             //1 - QCM Réponse unique
             //2 - QCM Réponse multiple
             //3 - Oui/non
-            //4 - Texte
+            //4 - Texteget
             //5 - Autocomplétion
             switch (true) {
                 case data.Type_Q == 1:
