@@ -281,6 +281,24 @@ function niveauSuivant(number) {
                         });
                     });
 
+                    $("#rejouer-niveau").click(function() {
+                        switch (true) {
+                            case gameInfos.Niveau == 1:
+                                // Rejouer niveau 1
+                                $.get('api/game/1', function (data) {
+                                    data.Points_total = 0;
+                                    data.Points_sous_niveau = 0;
+                                    gameInfos = data;
+                                    localStorage.setItem('data', JSON.stringify(data));
+                                    questionSuivante(-1);
+                                });
+                                break;
+
+                            case gameInfos.Niveau == 2:
+                                // Rejouer niveau 2
+                                break;
+                        }
+                    });
 
                 });
             }
