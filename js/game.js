@@ -86,6 +86,7 @@ function questionSuivante(i) {
                     //TODO Pour test, à retirer
                     //----->
                     data.reponse = propsArr[prop].Espece_Ph;
+                    data.reponse_grp = propsArr[prop].pivot.Reponse_Txt
                     //<-----
                 }
             }
@@ -240,7 +241,7 @@ function validerReponse(data) {
             var to_min_user = noAccent($('#rep_text').val());
             to_min_user = to_min_user.toLowerCase();
 
-            var to_min_rep = noAccent(data.propositions[0].Espece_Ph);
+            var to_min_rep = noAccent(data.propositions[0].pivot.Reponse_Txt);
             to_min_rep = to_min_rep.toLowerCase();
 
             if(to_min_user === to_min_rep) {
@@ -266,11 +267,26 @@ function validerReponse(data) {
  */
 function niveauSuivant(number) {
     if (gameInfos.Points_sous_niveau || number >= gameInfos.Nb_points_necessaires) {
-
         $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
+
             if (data.Niveau != gameInfos.Niveau) {
                 //TODO Gérer le passage d'un niveau
                 console.log("Niveau ++");
+                $.get('mustache/fin_niveau', function (template) {
+                    $('#on_orniQuizz').html(Mustache.render(template, gameInfos));
+
+                    $("#next-level").click(function () {
+                        $.get('api/game/' + gameInfos.Sous_niveau_suivant, function (data) {
+                            data.Points_total = gameInfos.Points_total;
+                            data.Points_sous_niveau = 0;
+                            gameInfos = data;
+                            localStorage.setItem('data', JSON.stringify(data));
+                            questionSuivante(-1);
+                        });
+                    });
+
+
+                });
             }
             else {
                 gameInfos.Points_total += gameInfos.Points_sous_niveau;
@@ -278,7 +294,7 @@ function niveauSuivant(number) {
                 $.get('mustache/fin_sous_niveau', function (template) {
                     $('#on_orniQuizz').html(Mustache.render(template, gameInfos));
                     console.log(gameInfos);
-                    $("#next-level").click(function () {
+                    $("#next-ss-level").click(function () {
                         data.Points_total = gameInfos.Points_total;
                         data.Points_sous_niveau = 0;
                         gameInfos = data;
@@ -291,7 +307,7 @@ function niveauSuivant(number) {
                     });
                 });
             }
-        })
+        });
     }
     else {
         //Nombre insuffisant de points, on recommence
