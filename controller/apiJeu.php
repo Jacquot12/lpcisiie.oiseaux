@@ -21,6 +21,8 @@ const NIVEAU = 1;
  */
 const SOUS_NIVEAU = 1;
 
+const COUNTDOWN = 60;
+
 class apiJeu {
 
     /**
@@ -51,7 +53,7 @@ class apiJeu {
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
         $questions['Points_sous_niveau'] = 0;
         $questions['Points_total'] = 0;
-        $questions['Countdown'] = 59;
+        $questions['Countdown'] = COUNTDOWN;
         echo json_encode($questions);
     }
 
@@ -81,7 +83,7 @@ class apiJeu {
         $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
         $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
-        $questions['Countdown'] = 59;
+        $questions['Countdown'] = COUNTDOWN;
         echo json_encode($questions);
     }
 }
