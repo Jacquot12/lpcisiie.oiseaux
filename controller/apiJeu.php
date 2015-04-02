@@ -6,20 +6,16 @@ use model\SousNiveau;
 use model\Aide;
 
 //TODO Mettre ça dans un .ini
-/**
- * Nombre de questions par sous-niveau
- */
+
+// Nombre de questions par sous-niveau
 const QUESTIONS_PAR_SS_NIVEAU = 10;
 
-/**
- * Niveau de base
- */
+// Niveau de base
 const NIVEAU = 1;
 
-/**
- * Sous-niveau de base
- */
+//Sous-niveau de base
 const SOUS_NIVEAU = 1;
+
 
 class apiJeu {
 
@@ -51,7 +47,7 @@ class apiJeu {
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
         $questions['Points_sous_niveau'] = 0;
         $questions['Points_total'] = 0;
-        $questions['Countdown'] = 59;
+        $questions['Countdown'] = (int)$nb_points[0]['attributes']['Temps_limite'];
         echo json_encode($questions);
     }
 
@@ -81,7 +77,7 @@ class apiJeu {
         $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
         $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
-        $questions['Countdown'] = 59;
+        $questions['Countdown'] = (int)$nb_points[0]['attributes']['Temps_limite'];
         echo json_encode($questions);
     }
 }

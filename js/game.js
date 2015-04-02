@@ -35,10 +35,6 @@ $(function () {
         $(this).addClass("selected");
     });
 
-    //$(document).on('click', '.radio-btn', function (e) {
-    //    $(".radio-btn").removeClass("tamer");
-    //    $(this).addClass("tamer");
-    //});
 });
 
 
