@@ -5,18 +5,13 @@ use model\Question;
 use model\SousNiveau;
 use model\Aide;
 
-//TODO Mettre ça dans un .ini
-
-// Nombre de questions par sous-niveau
-const QUESTIONS_PAR_SS_NIVEAU = 10;
-
 // Niveau de base
 const NIVEAU = 1;
 
 //Sous-niveau de base
 const SOUS_NIVEAU = 1;
 
-const COUNDTDOWN = 30;
+const COUNTDOWN = 30;
 
 
 
@@ -29,29 +24,37 @@ class apiJeu {
      */
 
     static function createNewGame(){
+
+        //Initialisation des variables
+        $config = parse_ini_file("config/gameConfig.ini");
+        $questions_par_ss_niveau = $config['questions_par_ss_niveau'];
+        $niveau = $config['niveau'];
+        $sous_niveau = $config['sous_niveau'];
+        $countdown = $config['countdown'];
+
         $questions = Question::select('Id_question')->distinct()
             ->orderByRaw('RAND()')
-            ->limit(QUESTIONS_PAR_SS_NIVEAU)
-            ->where('Id_sous_niveau', '=', SOUS_NIVEAU)
+            ->limit($questions_par_ss_niveau)
+            ->where('Id_sous_niveau', '=', $sous_niveau)
             ->get();
         foreach($questions as $q) {
             $q['Url'] = 'api/question/'.$q['Id_question'];
         }
         $nb_points = SousNiveau::select('Score_Validation', 'Sous_niveau_suivant', 'Description_sous_niveau', 'Question_sous_niveau', 'Nb_questions')
-            ->where('Id_niveau', '=', NIVEAU)
-            ->where('Num_sous_niveau', '=', SOUS_NIVEAU)
+            ->where('Id_niveau', '=', $niveau)
+            ->where('Num_sous_niveau', '=', $sous_niveau)
             ->get();
 
         $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
         $questions['Question_sous_niveau'] = $nb_points[0]['attributes']['Question_sous_niveau'];
         $questions['Nb_questions'] = $nb_points[0]['attributes']['Nb_questions'];
         $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_Validation'];
-        $questions['Niveau'] = NIVEAU;
-        $questions['Sous_niveau'] = SOUS_NIVEAU;
+        $questions['Niveau'] = $niveau;
+        $questions['Sous_niveau'] = $sous_niveau;
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
         $questions['Points_sous_niveau'] = 0;
         $questions['Points_total'] = 0;
-        $questions['Countdown'] = COUNDTDOWN;
+        $questions['Countdown'] = $countdown;
         echo json_encode($questions);
     }
 
@@ -62,11 +65,17 @@ class apiJeu {
      * L'id du sous_niveau dont on veut les infos (Sous_niveau_suivant)
      */
     static function nextLevel($sous_niveau) {
+
+        //Initialisation des variables
+        $config = parse_ini_file("config/gameConfig.ini");
+        $questions_par_ss_niveau = $config['questions_par_ss_niveau'];
+        $countdown = $config['countdown'];
+
         $nb_points = SousNiveau::select()->where('Id_sous_niveau', '=', $sous_niveau)->get();
         $questions = Question::select('Id_question')->distinct()
             ->where('Id_question', '<', 700)
             ->orderByRaw('RAND()')
-            ->limit(QUESTIONS_PAR_SS_NIVEAU)
+            ->limit($questions_par_ss_niveau)
             ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])
             ->get();
 
@@ -75,13 +84,13 @@ class apiJeu {
         }
         $questions['Description_sous_niveau'] = $nb_points[0]['attributes']['Description_sous_niveau'];
         $questions['Question_sous_niveau'] = $nb_points[0]['attributes']['Question_sous_niveau'];
-        $questions['Nb_questions'] = QUESTIONS_PAR_SS_NIVEAU;
+        $questions['Nb_questions'] = $questions_par_ss_niveau;
         $questions['Nb_points_necessaires'] = (int)$nb_points[0]['attributes']['Score_validation'];
         $questions['Niveau'] = (int)$nb_points[0]['attributes']['Id_niveau'];
         $questions['Sous_niveau'] = (int)$nb_points[0]['attributes']['Num_sous_niveau'];
         $questions['Id_sous_niveau'] = (int)$nb_points[0]['attributes']['Id_sous_niveau'];
         $questions['Sous_niveau_suivant'] = (int)$nb_points[0]['attributes']['Sous_niveau_suivant'];
-        $questions['Countdown'] = COUNDTDOWN;
+        $questions['Countdown'] = $countdown;
         echo json_encode($questions);
     }
 }
