@@ -67,15 +67,17 @@ class apiJeu {
     static function nextLevel($sous_niveau) {
 
         //Initialisation des variables
-        $config = parse_ini_file("config/gameConfig.ini");
-        $questions_par_ss_niveau = $config['questions_par_ss_niveau'];
-        $countdown = $config['countdown'];
+//        $config = parse_ini_file("config/gameConfig.ini");
+//        $questions_par_ss_niveau = $config['questions_par_ss_niveau'];
+        $questions_par_ss_niveau = 10;
+//        $countdown = $config['countdown'];
+        $countdown = 30;
 
         $nb_points = SousNiveau::select()->where('Id_sous_niveau', '=', $sous_niveau)->get();
         $questions = Question::select('Id_question')->distinct()
             ->orderByRaw('RAND()')
             ->limit($questions_par_ss_niveau)
-            ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])
+            ->where('Id_sous_niveau', '=', $sous_niveau)
             ->get();
 
         foreach($questions as $q) {
