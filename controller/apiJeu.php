@@ -73,7 +73,6 @@ class apiJeu {
 
         $nb_points = SousNiveau::select()->where('Id_sous_niveau', '=', $sous_niveau)->get();
         $questions = Question::select('Id_question')->distinct()
-            ->where('Id_question', '<', 700)
             ->orderByRaw('RAND()')
             ->limit($questions_par_ss_niveau)
             ->where('Id_sous_niveau', '=', (int)$nb_points[0]['attributes']['Num_sous_niveau'])
