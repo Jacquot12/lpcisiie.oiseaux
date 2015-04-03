@@ -11,6 +11,7 @@ Projet tutoré LP CISIIE 2015
 
 ## reunion 30mars
 
+* Empêcher la validation tant qu'aucune réponse de selectionnée
 * différent media
 * mettre son avec jplayer 2.9.2
 * points selon temps
